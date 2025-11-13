@@ -1,0 +1,167 @@
+{
+  "name": "IF 예제 3: 키워드 분류",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        240,
+        300
+      ],
+      "id": "manual-trigger-3",
+      "name": "Manual Trigger"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "email-subject",
+              "name": "제목",
+              "value": "[긴급] 서버 장애 발생",
+              "type": "string"
+            },
+            {
+              "id": "email-sender",
+              "name": "발신자",
+              "value": "admin@company.com",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        460,
+        300
+      ],
+      "id": "set-email",
+      "name": "이메일 정보"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": false,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "keyword-check",
+              "leftValue": "={{ $json['제목'] }}",
+              "rightValue": "긴급",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        680,
+        300
+      ],
+      "id": "if-keyword",
+      "name": "키워드 확인"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "urgent-msg",
+              "name": "분류결과",
+              "value": "=🚨 긴급 메일 감지!\n제목: {{ $json['제목'] }}\n발신: {{ $json['발신자'] }}\n→ 긴급 폴더로 이동\n→ 담당자에게 즉시 알림",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        900,
+        200
+      ],
+      "id": "set-urgent",
+      "name": "긴급 처리"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "normal-msg",
+              "name": "분류결과",
+              "value": "=📧 일반 메일\n제목: {{ $json['제목'] }}\n발신: {{ $json['발신자'] }}\n→ 일반 폴더로 분류",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        900,
+        400
+      ],
+      "id": "set-normal-email",
+      "name": "일반 처리"
+    }
+  ],
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "이메일 정보",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "이메일 정보": {
+      "main": [
+        [
+          {
+            "node": "키워드 확인",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "키워드 확인": {
+      "main": [
+        [
+          {
+            "node": "긴급 처리",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "일반 처리",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {}
+}

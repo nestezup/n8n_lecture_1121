@@ -1,0 +1,339 @@
+{
+  "name": "실습 5: 성적 등급",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        240,
+        400
+      ],
+      "id": "4b8a24a3-2b9b-4c6b-8c67-bac651a48ae7",
+      "name": "When clicking 'Execute workflow'"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "score-input",
+              "name": "점수",
+              "value": 85,
+              "type": "number"
+            },
+            {
+              "id": "student-name",
+              "name": "학생이름",
+              "value": "홍길동",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        460,
+        400
+      ],
+      "id": "4f7bcbed-bcda-4928-86c6-e7b372bfd5c1",
+      "name": "점수 입력"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json['점수'] }}",
+                    "rightValue": 90,
+                    "operator": {
+                      "type": "number",
+                      "operation": "gte"
+                    },
+                    "id": "condition-a"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "outputKey": "A등급"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json['점수'] }}",
+                    "rightValue": 80,
+                    "operator": {
+                      "type": "number",
+                      "operation": "gte"
+                    },
+                    "id": "condition-b"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "outputKey": "B등급"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json['점수'] }}",
+                    "rightValue": 70,
+                    "operator": {
+                      "type": "number",
+                      "operation": "gte"
+                    },
+                    "id": "condition-c"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "outputKey": "C등급"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json['점수'] }}",
+                    "rightValue": 60,
+                    "operator": {
+                      "type": "number",
+                      "operation": "gte"
+                    },
+                    "id": "condition-d"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "outputKey": "D등급"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra"
+        },
+        "fallbackOutput": "F등급"
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3,
+      "position": [
+        680,
+        400
+      ],
+      "id": "bb081c25-9a36-45c4-9d95-72806588af22",
+      "name": "등급 판정"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "grade-a",
+              "name": "결과",
+              "value": "={{ $json['학생이름'] }}님\n점수: {{ $json['점수'] }}점\n등급: A (우수)\n🎉 축하합니다!",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        900,
+        100
+      ],
+      "id": "a1b2c3d4-5e6f-7890-abcd-111111111111",
+      "name": "A등급"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "grade-b",
+              "name": "결과",
+              "value": "={{ $json['학생이름'] }}님\n점수: {{ $json['점수'] }}점\n등급: B (양호)\n👍 잘했습니다!",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        900,
+        250
+      ],
+      "id": "b2c3d4e5-6f7a-8901-bcde-222222222222",
+      "name": "B등급"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "grade-c",
+              "name": "결과",
+              "value": "={{ $json['학생이름'] }}님\n점수: {{ $json['점수'] }}점\n등급: C (보통)\n💪 조금 더 노력해요!",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        900,
+        400
+      ],
+      "id": "c3d4e5f6-7a8b-9012-cdef-333333333333",
+      "name": "C등급"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "grade-d",
+              "name": "결과",
+              "value": "={{ $json['학생이름'] }}님\n점수: {{ $json['점수'] }}점\n등급: D (미흡)\n📚 더 열심히 해봅시다!",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        900,
+        550
+      ],
+      "id": "d4e5f6a7-8b9c-0123-def0-444444444444",
+      "name": "D등급"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "grade-f",
+              "name": "결과",
+              "value": "={{ $json['학생이름'] }}님\n점수: {{ $json['점수'] }}점\n등급: F (불합격)\n⚠️ 재시험이 필요합니다.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        900,
+        700
+      ],
+      "id": "e5f6a7b8-9c0d-1234-ef01-555555555555",
+      "name": "F등급"
+    }
+  ],
+  "connections": {
+    "When clicking 'Execute workflow'": {
+      "main": [
+        [
+          {
+            "node": "점수 입력",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "점수 입력": {
+      "main": [
+        [
+          {
+            "node": "등급 판정",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "등급 판정": {
+      "main": [
+        [
+          {
+            "node": "A등급",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "B등급",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "C등급",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "D등급",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "F등급",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "instanceId": "68d1c51b855d2dc0279720214480b41f2c85f0df21ac6cc1a6f0e9dc96935b36"
+  }
+}

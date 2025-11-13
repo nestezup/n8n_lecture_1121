@@ -1,0 +1,167 @@
+{
+  "name": "IF 예제 1: 거래 금액 알림",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        240,
+        300
+      ],
+      "id": "manual-trigger-1",
+      "name": "Manual Trigger"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "transaction-1",
+              "name": "거래금액",
+              "value": 1500000,
+              "type": "number"
+            },
+            {
+              "id": "transaction-2",
+              "name": "거래자",
+              "value": "홍길동",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        460,
+        300
+      ],
+      "id": "set-transaction",
+      "name": "거래 정보"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "amount-check",
+              "leftValue": "={{ $json['거래금액'] }}",
+              "rightValue": 1000000,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        680,
+        300
+      ],
+      "id": "if-amount",
+      "name": "금액 확인"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "alert-msg",
+              "name": "알림",
+              "value": "=⚠️ 고액 거래 발생!\n거래자: {{ $json['거래자'] }}\n금액: {{ $json['거래금액'].toLocaleString() }}원\n→ 관리자 확인 필요",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        900,
+        200
+      ],
+      "id": "set-alert",
+      "name": "관리자 알림"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "normal-msg",
+              "name": "알림",
+              "value": "=✅ 정상 거래\n거래자: {{ $json['거래자'] }}\n금액: {{ $json['거래금액'].toLocaleString() }}원",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        900,
+        400
+      ],
+      "id": "set-normal",
+      "name": "일반 처리"
+    }
+  ],
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "거래 정보",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "거래 정보": {
+      "main": [
+        [
+          {
+            "node": "금액 확인",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "금액 확인": {
+      "main": [
+        [
+          {
+            "node": "관리자 알림",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "일반 처리",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {}
+}

@@ -1,0 +1,85 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "jsCode": "// Set 노드에서 받은 숫자 가져오기\nconst num1 = $input.item.json.number1;\nconst num2 = $input.item.json.number2;\n\n// 계산 수행\nconst sum = num1 + num2;\nconst difference = num1 - num2;\nconst product = num1 * num2;\nconst quotient = num1 / num2;\n\n// 결과 반환\nreturn {\n  json: {\n    number1: num1,\n    number2: num2,\n    합계: sum,\n    차이: difference,\n    곱셈: product,\n    나눗셈: quotient.toFixed(2)\n  }\n};"
+      },
+      "id": "d2c2bbfe-45a9-49bc-a6c6-60d770678e40",
+      "name": "Code",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        336,
+        176
+      ]
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -112,
+        176
+      ],
+      "id": "3f9b70ab-c9b8-4603-835c-8fb139b77b06",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e4e8007c-1079-4ecd-b854-eff11ce27736",
+              "name": "number1",
+              "value": 100,
+              "type": "number"
+            },
+            {
+              "id": "50bbc1f1-fa5a-4f96-8704-d266d589d718",
+              "name": "number2",
+              "value": 10,
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        112,
+        176
+      ],
+      "id": "ad1e16e1-ad4a-4085-9636-d7215e4880d6",
+      "name": "Edit Fields"
+    }
+  ],
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "instanceId": "68d1c51b855d2dc0279720214480b41f2c85f0df21ac6cc1a6f0e9dc96935b36"
+  }
+}

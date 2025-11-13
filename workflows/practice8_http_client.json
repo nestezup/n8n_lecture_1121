@@ -1,0 +1,107 @@
+{
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        400,
+        -32
+      ],
+      "id": "7a173a29-98c6-47d9-a625-8cd76eba4190",
+      "name": "Manual Trigger"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "request-data",
+              "name": "요청데이터",
+              "value": "= {\n  \"name\": \"수강자\",\n  \"message\": \"웹훅 테스트 요청입니다\",\n  \"timestamp\": \"{{ new Date().toISOString() }}\",\n  \"practice\": \"실습 8\"\n}",
+              "type": "object"
+            },
+            {
+              "id": "webhook-url",
+              "name": "웹훅URL",
+              "value": "https://solostack.app.n8n.cloud/webhook/webhook-test",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        624,
+        -32
+      ],
+      "id": "5affe46b-ce51-4d45-aa60-09eff294fad9",
+      "name": "Edit Fields (Set)"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json['웹훅URL'] }}",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "name",
+              "value": "={{ $json.요청데이터.name }}"
+            },
+            {
+              "name": "message",
+              "value": "={{ $json.요청데이터.message }}"
+            },
+            {
+              "name": "timestamp",
+              "value": "={{ $json.요청데이터.timestamp }}"
+            },
+            {
+              "name": "practice",
+              "value": "={{ $json.요청데이터.practice }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        848,
+        -32
+      ],
+      "id": "38ab30bc-5ff4-4ee8-93de-44d0d4c51fa9",
+      "name": "HTTP Request"
+    }
+  ],
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields (Set)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields (Set)": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "instanceId": "68d1c51b855d2dc0279720214480b41f2c85f0df21ac6cc1a6f0e9dc96935b36"
+  }
+}

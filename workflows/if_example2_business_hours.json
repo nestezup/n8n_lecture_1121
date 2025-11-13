@@ -1,0 +1,176 @@
+{
+  "name": "IF 예제 2: 업무 시간 확인",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        240,
+        300
+      ],
+      "id": "manual-trigger-2",
+      "name": "Manual Trigger"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "current-hour",
+              "name": "현재시간",
+              "value": "={{ new Date().toLocaleString('en-US', { timeZone: 'Asia/Seoul', hour: 'numeric', hour12: false }) }}",
+              "type": "number"
+            },
+            {
+              "id": "request-type",
+              "name": "요청내용",
+              "value": "고객 문의",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        460,
+        300
+      ],
+      "id": "set-time",
+      "name": "현재 시간"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "hour-check-start",
+              "leftValue": "={{ $json['현재시간'] }}",
+              "rightValue": 9,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            },
+            {
+              "id": "hour-check-end",
+              "leftValue": "={{ $json['현재시간'] }}",
+              "rightValue": 18,
+              "operator": {
+                "type": "number",
+                "operation": "lt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        680,
+        300
+      ],
+      "id": "if-business-hours",
+      "name": "업무 시간 확인"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "business-msg",
+              "name": "처리방법",
+              "value": "=🟢 업무 시간입니다 ({{ $json['현재시간'] }}시)\n{{ $json['요청내용'] }}\n→ 즉시 담당자에게 전달",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        900,
+        200
+      ],
+      "id": "set-business",
+      "name": "즉시 처리"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "after-msg",
+              "name": "처리방법",
+              "value": "=🔴 업무 시간 외입니다 ({{ $json['현재시간'] }}시)\n{{ $json['요청내용'] }}\n→ 다음 업무일에 처리 예정\n→ 자동 응답 메시지 발송",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        900,
+        400
+      ],
+      "id": "set-after",
+      "name": "대기 처리"
+    }
+  ],
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "현재 시간",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "현재 시간": {
+      "main": [
+        [
+          {
+            "node": "업무 시간 확인",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "업무 시간 확인": {
+      "main": [
+        [
+          {
+            "node": "즉시 처리",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "대기 처리",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {}
+}

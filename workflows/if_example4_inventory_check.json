@@ -1,0 +1,173 @@
+{
+  "name": "IF 예제 4: 재고 확인 및 발주",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        240,
+        300
+      ],
+      "id": "manual-trigger-4",
+      "name": "Manual Trigger"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "product-name",
+              "name": "상품명",
+              "value": "노트북 A4용지",
+              "type": "string"
+            },
+            {
+              "id": "current-stock",
+              "name": "현재재고",
+              "value": 15,
+              "type": "number"
+            },
+            {
+              "id": "min-stock",
+              "name": "최소재고",
+              "value": 20,
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        460,
+        300
+      ],
+      "id": "set-inventory",
+      "name": "재고 정보"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "stock-check",
+              "leftValue": "={{ $json['현재재고'] }}",
+              "rightValue": "={{ $json['최소재고'] }}",
+              "operator": {
+                "type": "number",
+                "operation": "lt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        680,
+        300
+      ],
+      "id": "if-stock",
+      "name": "재고 확인"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "order-msg",
+              "name": "처리결과",
+              "value": "=⚠️ 재고 부족 감지!\n상품: {{ $json['상품명'] }}\n현재 재고: {{ $json['현재재고'] }}개\n최소 재고: {{ $json['최소재고'] }}개\n부족 수량: {{ $json['최소재고'] - $json['현재재고'] }}개\n\n✅ 자동 발주 프로세스 시작\n→ 발주량: {{ ($json['최소재고'] - $json['현재재고'] + 50) }}개\n→ 구매 담당자에게 알림 발송",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        900,
+        200
+      ],
+      "id": "set-order",
+      "name": "발주 시작"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "sufficient-msg",
+              "name": "처리결과",
+              "value": "=✅ 재고 충분\n상품: {{ $json['상품명'] }}\n현재 재고: {{ $json['현재재고'] }}개\n최소 재고: {{ $json['최소재고'] }}개\n\n발주 불필요",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        900,
+        400
+      ],
+      "id": "set-sufficient",
+      "name": "정상 상태"
+    }
+  ],
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "재고 정보",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "재고 정보": {
+      "main": [
+        [
+          {
+            "node": "재고 확인",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "재고 확인": {
+      "main": [
+        [
+          {
+            "node": "발주 시작",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "정상 상태",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {}
+}

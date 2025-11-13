@@ -1,0 +1,215 @@
+{
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        352,
+        352
+      ],
+      "id": "66193848-f5fb-4758-987e-e16cae15e4b2",
+      "name": "When clicking 'Execute workflow'"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "city-input",
+              "name": "도시",
+              "value": "서울",
+              "type": "string"
+            },
+            {
+              "id": "latitude",
+              "name": "위도",
+              "value": 37.5665,
+              "type": "number"
+            },
+            {
+              "id": "경도",
+              "name": "경도",
+              "value": 126.978,
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        560,
+        240
+      ],
+      "id": "f0c9294b-c0b7-4237-b65c-386e201e86bc",
+      "name": "Edit Fields (Set)"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "api-key",
+              "name": "API키",
+              "value": "0c24e183a66d5ff75b0164d001cf9fc7",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        560,
+        448
+      ],
+      "id": "8b924362-5644-4902-bbbc-7eebd59a6566",
+      "name": "Edit Fields1 (Set)"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineAll",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        784,
+        352
+      ],
+      "id": "c816f398-4723-4e20-b5c0-8d7746c89233",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.openweathermap.org/data/3.0/onecall?lat={{ $json.위도 }}&lon={{ $json.경도 }}&exclude=minutely,hourly,daily,alerts&appid={{ $json.API키 }}&units=metric&lang=kr",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        1008,
+        352
+      ],
+      "id": "1f18e452-e42e-4026-9cea-b13e3eab519e",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "temperature",
+              "name": "온도",
+              "value": "={{ $json.current.temp }}",
+              "type": "number"
+            },
+            {
+              "id": "feels-like",
+              "name": "체감온도",
+              "value": "={{ $json.current.feels_like }}",
+              "type": "number"
+            },
+            {
+              "id": "weather-desc",
+              "name": "날씨",
+              "value": "={{ $json.current.weather[0].description }}",
+              "type": "string"
+            },
+            {
+              "id": "humidity",
+              "name": "습도",
+              "value": "={{ $json.current.humidity }}",
+              "type": "number"
+            },
+            {
+              "id": "weather-summary",
+              "name": "날씨요약",
+              "value": "=서울의 현재 날씨\n\n🌡️ 온도: {{ $json.current.temp }}°C\n🤚 체감: {{ $json.current.feels_like }}°C\n☁️ 날씨: {{ $json.current.weather[0].description }}\n💧 습도: {{ $json.current.humidity }}%",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1232,
+        352
+      ],
+      "id": "fd8929de-abf7-4d6f-adb7-02190aaae1fc",
+      "name": "Edit Fields2 (Set)"
+    }
+  ],
+  "connections": {
+    "When clicking 'Execute workflow'": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields (Set)",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Edit Fields1 (Set)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields (Set)": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1 (Set)": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2 (Set)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "instanceId": "68d1c51b855d2dc0279720214480b41f2c85f0df21ac6cc1a6f0e9dc96935b36"
+  }
+}

@@ -1,0 +1,340 @@
+{
+  "name": "Switch 예제 3: 업무 중요도별 담당자 배정",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        240,
+        400
+      ],
+      "id": "c1d2e3f4-7a8b-9012-1111-111111111111",
+      "name": "When clicking 'Execute workflow'"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "task-priority",
+              "name": "중요도",
+              "value": "긴급",
+              "type": "string"
+            },
+            {
+              "id": "task-title",
+              "name": "업무제목",
+              "value": "서버 장애 긴급 대응",
+              "type": "string"
+            },
+            {
+              "id": "task-requester",
+              "name": "요청자",
+              "value": "박대리",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        460,
+        400
+      ],
+      "id": "d2e3f4a5-8b9c-0123-2222-222222222222",
+      "name": "업무 정보"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json['중요도'] }}",
+                    "rightValue": "긴급",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "cond-urgent"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "outputKey": "긴급업무"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json['중요도'] }}",
+                    "rightValue": "높음",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "cond-high"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "outputKey": "높은우선순위"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json['중요도'] }}",
+                    "rightValue": "보통",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "cond-medium"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "outputKey": "보통우선순위"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra"
+        },
+        "fallbackOutput": "낮은우선순위"
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3,
+      "position": [
+        680,
+        400
+      ],
+      "id": "e3f4a5b6-9c0d-1234-3333-333333333333",
+      "name": "중요도 분류"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "urgent-assign",
+              "name": "배정결과",
+              "value": "=🚨 긴급 업무 발생!\n\n업무: {{ $json['업무제목'] }}\n요청자: {{ $json['요청자'] }}\n중요도: {{ $json['중요도'] }}\n\n✅ 담당자: 팀장 + 시니어 개발자\n✅ 처리 기한: 즉시 (2시간 이내)\n✅ 슬랙 긴급 채널 알림\n✅ SMS 긴급 알림 발송\n✅ 전담 리소스 배정",
+              "type": "string"
+            },
+            {
+              "id": "assignee",
+              "name": "담당자",
+              "value": "팀장, 시니어개발자",
+              "type": "string"
+            },
+            {
+              "id": "deadline",
+              "name": "처리기한",
+              "value": "2시간",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        900,
+        200
+      ],
+      "id": "f4a5b6c7-0d1e-2345-4444-444444444444",
+      "name": "긴급 배정"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "high-assign",
+              "name": "배정결과",
+              "value": "=⚠️ 높은 우선순위 업무\n\n업무: {{ $json['업무제목'] }}\n요청자: {{ $json['요청자'] }}\n중요도: {{ $json['중요도'] }}\n\n✅ 담당자: 시니어 개발자\n✅ 처리 기한: 당일 (8시간 이내)\n✅ 슬랙 알림 발송\n✅ 우선 처리 대상",
+              "type": "string"
+            },
+            {
+              "id": "assignee",
+              "name": "담당자",
+              "value": "시니어개발자",
+              "type": "string"
+            },
+            {
+              "id": "deadline",
+              "name": "처리기한",
+              "value": "당일",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        900,
+        350
+      ],
+      "id": "a5b6c7d8-1e2f-3456-5555-555555555555",
+      "name": "높음 배정"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "medium-assign",
+              "name": "배정결과",
+              "value": "=📋 보통 우선순위 업무\n\n업무: {{ $json['업무제목'] }}\n요청자: {{ $json['요청자'] }}\n중요도: {{ $json['중요도'] }}\n\n✅ 담당자: 주니어 개발자\n✅ 처리 기한: 3일 이내\n✅ 이메일 알림\n✅ 일반 대기열 추가",
+              "type": "string"
+            },
+            {
+              "id": "assignee",
+              "name": "담당자",
+              "value": "주니어개발자",
+              "type": "string"
+            },
+            {
+              "id": "deadline",
+              "name": "처리기한",
+              "value": "3일",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        900,
+        500
+      ],
+      "id": "b6c7d8e9-2f3a-4567-6666-666666666666",
+      "name": "보통 배정"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "low-assign",
+              "name": "배정결과",
+              "value": "=📝 낮은 우선순위 업무\n\n업무: {{ $json['업무제목'] }}\n요청자: {{ $json['요청자'] }}\n중요도: {{ $json['중요도'] }}\n\n✅ 담당자: 인턴 또는 여유 있는 팀원\n✅ 처리 기한: 1주일 이내\n✅ 백로그 추가\n✅ 여유 시간에 처리",
+              "type": "string"
+            },
+            {
+              "id": "assignee",
+              "name": "담당자",
+              "value": "인턴",
+              "type": "string"
+            },
+            {
+              "id": "deadline",
+              "name": "처리기한",
+              "value": "1주일",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        900,
+        650
+      ],
+      "id": "c7d8e9f0-3a4b-5678-7777-777777777777",
+      "name": "낮음 배정"
+    }
+  ],
+  "connections": {
+    "When clicking 'Execute workflow'": {
+      "main": [
+        [
+          {
+            "node": "업무 정보",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "업무 정보": {
+      "main": [
+        [
+          {
+            "node": "중요도 분류",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "중요도 분류": {
+      "main": [
+        [
+          {
+            "node": "긴급 배정",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "높음 배정",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "보통 배정",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "낮음 배정",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "instanceId": "68d1c51b855d2dc0279720214480b41f2c85f0df21ac6cc1a6f0e9dc96935b36"
+  }
+}

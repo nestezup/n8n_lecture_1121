@@ -1,0 +1,286 @@
+{
+  "name": "Switch 예제 1: 고객 유형별 메시지",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        240,
+        400
+      ],
+      "id": "a1b2c3d4-5e6f-7890-1111-000000000001",
+      "name": "When clicking 'Execute workflow'"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "customer-type",
+              "name": "고객유형",
+              "value": "VIP",
+              "type": "string"
+            },
+            {
+              "id": "customer-name",
+              "name": "고객명",
+              "value": "김철수",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        460,
+        400
+      ],
+      "id": "b2c3d4e5-6f7a-8901-2222-000000000002",
+      "name": "고객 정보"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json['고객유형'] }}",
+                    "rightValue": "VIP",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "cond-vip"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "outputKey": "VIP고객"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json['고객유형'] }}",
+                    "rightValue": "단골",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "cond-regular"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "outputKey": "단골고객"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json['고객유형'] }}",
+                    "rightValue": "신규",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "cond-new"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "outputKey": "신규고객"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra"
+        },
+        "fallbackOutput": "일반고객"
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3,
+      "position": [
+        680,
+        400
+      ],
+      "id": "c3d4e5f6-7a8b-9012-3333-000000000003",
+      "name": "고객 유형 확인"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "vip-message",
+              "name": "발송메시지",
+              "value": "={{ $json['고객명'] }}님,\n\n소중한 VIP 고객님께 특별 혜택을 안내드립니다.\n\n✨ VIP 전용 30% 할인\n✨ 무료 배송 + 당일 배송\n✨ 전담 상담사 배정\n✨ 신상품 우선 구매권\n\n항상 감사드립니다.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        900,
+        200
+      ],
+      "id": "d4e5f6a7-8b9c-0123-4444-000000000004",
+      "name": "VIP 메시지"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "regular-message",
+              "name": "발송메시지",
+              "value": "={{ $json['고객명'] }}님,\n\n단골 고객님을 위한 특별 혜택을 준비했습니다.\n\n🎁 20% 할인 쿠폰\n🎁 무료 배송 (3만원 이상)\n🎁 포인트 2배 적립\n\n언제나 이용해 주셔서 감사합니다.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        900,
+        350
+      ],
+      "id": "e5f6a7b8-9c0d-1234-5555-000000000005",
+      "name": "단골 메시지"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "new-message",
+              "name": "발송메시지",
+              "value": "={{ $json['고객명'] }}님, 환영합니다!\n\n첫 구매 고객님을 위한 특별 혜택입니다.\n\n🎉 신규 가입 15% 할인\n🎉 웰컴 포인트 5,000원 증정\n🎉 첫 구매 무료 배송\n\n저희 쇼핑몰을 선택해 주셔서 감사합니다.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        900,
+        500
+      ],
+      "id": "f6a7b8c9-0d1e-2345-6666-000000000006",
+      "name": "신규 메시지"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "normal-message",
+              "name": "발송메시지",
+              "value": "={{ $json['고객명'] }}님,\n\n회원 고객님을 위한 혜택을 안내드립니다.\n\n📢 10% 할인 쿠폰\n📢 5만원 이상 무료 배송\n\n좋은 하루 되세요!",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        900,
+        650
+      ],
+      "id": "a7b8c9d0-1e2f-3456-7777-000000000007",
+      "name": "일반 메시지"
+    }
+  ],
+  "connections": {
+    "When clicking 'Execute workflow'": {
+      "main": [
+        [
+          {
+            "node": "고객 정보",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "고객 정보": {
+      "main": [
+        [
+          {
+            "node": "고객 유형 확인",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "고객 유형 확인": {
+      "main": [
+        [
+          {
+            "node": "VIP 메시지",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "단골 메시지",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "신규 메시지",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "일반 메시지",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "instanceId": "68d1c51b855d2dc0279720214480b41f2c85f0df21ac6cc1a6f0e9dc96935b36"
+  }
+}

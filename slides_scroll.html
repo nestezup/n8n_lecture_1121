@@ -1,0 +1,1711 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>n8n으로 시작하는 업무 자동화 - 초급 과정 Day 1</title>
+    <style>
+        @font-face {
+            font-family: 'Paperlogy';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-1Thin.woff2') format('woff2');
+            font-weight: 100;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Paperlogy';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-2ExtraLight.woff2') format('woff2');
+            font-weight: 200;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Paperlogy';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-3Light.woff2') format('woff2');
+            font-weight: 300;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Paperlogy';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-4Regular.woff2') format('woff2');
+            font-weight: 400;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Paperlogy';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-5Medium.woff2') format('woff2');
+            font-weight: 500;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Paperlogy';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-6SemiBold.woff2') format('woff2');
+            font-weight: 600;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Paperlogy';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-7Bold.woff2') format('woff2');
+            font-weight: 700;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Paperlogy';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-8ExtraBold.woff2') format('woff2');
+            font-weight: 800;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Paperlogy';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-9Black.woff2') format('woff2');
+            font-weight: 900;
+            font-display: swap;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Paperlogy', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+
+        /* 네비게이션 */
+        nav {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 280px;
+            height: 100vh;
+            background: #2c3e50;
+            color: white;
+            padding: 20px;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+
+        nav h1 {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #3498db;
+            font-weight: 700;
+        }
+
+        nav ul {
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-bottom: 8px;
+        }
+
+        nav ul li a {
+            color: #ecf0f1;
+            text-decoration: none;
+            display: block;
+            padding: 8px 12px;
+            border-radius: 5px;
+            transition: all 0.3s;
+            font-size: 1.1em; font-weight: 500;
+            font-weight: 400;
+        }
+
+        nav ul li a:hover,
+        nav ul li a.active {
+            background: #ffc107;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        nav ul li.section-title {
+            margin-top: 15px;
+            margin-bottom: 5px;
+        }
+
+        nav ul li.section-title a {
+            font-weight: 700;
+            color: #3498db;
+            padding-left: 0;
+        }
+
+        nav ul li.section-title a.active {
+            color: #2c3e50;
+        }
+
+        nav ul li.subsection a {
+            padding-left: 24px;
+            font-size: 0.85em;
+        }
+
+        /* 메인 콘텐츠 */
+        main {
+            margin-left: 280px;
+            padding: 40px;
+            max-width: 1200px;
+        }
+
+        section {
+            background: white;
+            padding: 40px;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            scroll-margin-top: 20px;
+        }
+
+        section.title-section {
+            text-align: center;
+            padding: 80px 40px;
+            background: white;
+            color: #2c3e50;
+        }
+
+        section.title-section h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        section.title-section h2 {
+            font-size: 1.8em;
+            font-weight: 400;
+            color: #34495e;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: #2c3e50;
+            margin-bottom: 0.5em;
+            font-weight: 700;
+        }
+
+        h2 {
+            font-size: 2em;
+            color: #34495e;
+            margin-bottom: 0.5em;
+            font-weight: 800;
+        }
+
+        h3 {
+            font-size: 1.5em;
+            color: #7f8c8d;
+            margin-top: 1em;
+            margin-bottom: 0.5em;
+            font-weight: 600;
+        }
+
+        p, li {
+            font-size: 1.1em;
+            line-height: 1.6;
+            font-weight: 400;
+            margin-bottom: 0.5em;
+        }
+
+        ul, ol {
+            margin-left: 2em;
+            margin-bottom: 1em;
+        }
+
+        strong {
+            color: #2c3e50;
+            font-weight: 700;
+        }
+
+        code {
+            background: #f8f9fa;
+            padding: 0.2em 0.4em;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            color: #e74c3c;
+            font-size: 1.1em; font-weight: 500;
+        }
+
+        pre {
+            background: #282c34;
+            color: #abb2bf;
+            padding: 1em;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin: 1em 0;
+        }
+
+        pre code {
+            background: transparent;
+            color: inherit;
+            padding: 0;
+            font-size: 1.1em; font-weight: 500;
+        }
+
+        .highlight {
+            background: #fff3cd;
+            padding: 0.6em 0.8em;
+            border-left: 4px solid #ffc107;
+            margin: 0.8em 0;
+            border-radius: 5px;
+        }
+
+        .practice-note {
+            background: #d1ecf1;
+            padding: 0.6em 0.8em;
+            border-left: 4px solid #17a2b8;
+            margin: 0.8em 0;
+            font-size: 0.95em;
+            border-radius: 5px;
+        }
+
+        .tip {
+            background: #d4edda;
+            padding: 0.5em 0.7em;
+            border-left: 4px solid #28a745;
+            margin: 0.8em 0;
+            font-size: 1.1em; font-weight: 500;
+            border-radius: 5px;
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2em;
+            margin: 1em 0;
+        }
+
+        .workflow-diagram {
+            background: #f8f9fa;
+            padding: 0.6em 0.8em;
+            border-radius: 8px;
+            font-family: monospace;
+            text-align: center;
+            margin: 0.8em 0;
+            border: 1px solid #dee2e6;
+        }
+
+        .time-badge {
+            display: inline-block;
+            background: #6c757d;
+            color: white;
+            padding: 0.3em 0.8em;
+            border-radius: 20px;
+            font-size: 0.8em;
+            margin-left: 0.5em;
+        }
+
+        a {
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        /* 반응형 */
+        @media (max-width: 1024px) {
+            nav {
+                width: 240px;
+            }
+
+            main {
+                margin-left: 240px;
+                padding: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                position: relative;
+                width: 100%;
+                height: auto;
+            }
+
+            main {
+                margin-left: 0;
+                padding: 20px;
+            }
+
+            .two-column {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 네비게이션 -->
+    <nav>
+        <h1>n8n 자동화 강의</h1>
+        <ul>
+            <li class="section-title"><a href="#intro">소개</a></li>
+            <li class="subsection"><a href="#intro-content">오늘 배울 내용</a></li>
+            <li class="subsection"><a href="#why-automation">자동화가 필요한 이유</a></li>
+            <li class="subsection"><a href="#n8n-intro">n8n 소개</a></li>
+            <li class="subsection"><a href="#n8n-concept">핵심 개념</a></li>
+            <li class="subsection"><a href="#n8n-access">n8n 접속</a></li>
+
+            <li class="section-title"><a href="#practice1">실습 1: Hello World</a></li>
+            <li class="section-title"><a href="#practice2">실습 2: 다중 데이터</a></li>
+            <li class="section-title"><a href="#practice3">실습 3: 계산기</a></li>
+
+            <li class="section-title"><a href="#break1">휴식 (10분)</a></li>
+
+            <li class="section-title"><a href="#practice4">실습 4: 나이 확인</a></li>
+            <li class="subsection"><a href="#if-examples">IF 노드 활용</a></li>
+
+            <li class="section-title"><a href="#practice5">실습 5: 성적 등급</a></li>
+            <li class="subsection"><a href="#switch-examples">Switch 노드 활용</a></li>
+
+            <li class="section-title"><a href="#lunch">점심 시간</a></li>
+
+            <li class="section-title"><a href="#practice6">실습 6: 날씨 확인</a></li>
+            <li class="subsection"><a href="#api-concept">API 이해하기</a></li>
+
+            <li class="section-title"><a href="#practice7">실습 7: 날씨 알림</a></li>
+
+            <li class="section-title"><a href="#break2">휴식 (10분)</a></li>
+
+            <li class="section-title"><a href="#practice8">실습 8: 웹훅</a></li>
+            <li class="section-title"><a href="#practice9">실습 9: 구글 시트</a></li>
+            <li class="section-title"><a href="#practice10">실습 10: 슬랙 알림</a></li>
+
+            <li class="section-title"><a href="#break3">휴식 (10분)</a></li>
+
+            <li class="section-title"><a href="#templates">템플릿 활용</a></li>
+            <li class="section-title"><a href="#free-practice">자유 실습</a></li>
+
+            <li class="section-title"><a href="#summary">정리 및 마무리</a></li>
+        </ul>
+    </nav>
+
+    <!-- 메인 콘텐츠 -->
+    <main>
+        <!-- 타이틀 -->
+        <section class="title-section" id="intro">
+            <h1>n8n으로 시작하는<br>업무 자동화</h1>
+            <h2>초급 과정 Day 1</h2>
+        </section>
+
+        <!-- 오늘 배울 내용 -->
+        <section id="intro-content">
+            <h2>오늘 배울 내용</h2>
+            <ul>
+                <li>자동화가 필요한 이유 (15분)</li>
+                <li>n8n 시작하기 (15분)</li>
+                <li><strong>실습 10개</strong> (3시간 30분)</li>
+                <li>템플릿 활용 및 자유 실습 (40분)</li>
+            </ul>
+            <div class="highlight">
+                <strong>목표: 오늘 최소 5개 이상의 자동화를 직접 만듭니다</strong>
+            </div>
+        </section>
+
+        <!-- 이런 일, 매일 하고 계신가요? -->
+        <section id="why-automation">
+            <h2>이런 일, 매일 하고 계신가요?</h2>
+            <ul>
+                <li>이메일 확인하고 중요한 것만 따로 정리</li>
+                <li>여러 곳 데이터를 엑셀에 복사-붙여넣기</li>
+                <li>특정 메시지가 오면 담당자에게 전달</li>
+                <li>매주 같은 양식의 보고서 작성</li>
+                <li>중요한 알림을 여러 곳에서 확인</li>
+            </ul>
+            <div class="highlight">
+                <strong>이러한 반복 작업을 오늘 자동화로 전환합니다</strong>
+            </div>
+        </section>
+
+        <!-- 자동화 개념 -->
+        <section>
+            <h2>자동화 = 규칙이 있는 반복 작업을<br>컴퓨터에게 맡기는 것</h2>
+            <div>
+                <div>
+                    <h3>수동으로 할 때</h3>
+                    <ol>
+                        <li>이메일 열기</li>
+                        <li>제목에 "긴급" 있는지 확인</li>
+                        <li>슬랙 열기</li>
+                        <li>메시지 작성해서 전송</li>
+                    </ol>
+                </div>
+                <div style="margin-top: 2em;">
+                    <h3>자동화 후</h3>
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 1em; margin: 2em 0;">
+                        <div style="padding: 0.5em 1em; background: white; border: 2px solid #3498db; border-radius: 5px;">이메일 확인</div>
+                        <div>→</div>
+                        <div style="padding: 0.5em 1em; background: white; border: 2px solid #ffc107; border-radius: 5px;">조건 확인</div>
+                        <div>→</div>
+                        <div style="padding: 0.5em 1em; background: white; border: 2px solid #28a745; border-radius: 5px;">슬랙 전송</div>
+                    </div>
+                    <p style="text-align: center; margin-top: 1em; color: #666;">
+                        → 컴퓨터가 1초 만에 처리
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- n8n 소개 -->
+        <section id="n8n-intro">
+            <h2>n8n이란?</h2>
+            <h3>블록 조립하듯 자동화 만드는 도구</h3>
+            <ul>
+                <li>1233개 이상의 앱/서비스 연동</li>
+                <li>코딩 불필요</li>
+                <li>무료 오픈소스</li>
+                <li>클라우드/셀프호스팅 모두 가능</li>
+            </ul>
+            <div class="highlight">
+                <strong>오늘은 클라우드 서버로 진행합니다</strong>
+            </div>
+        </section>
+
+        <!-- n8n 핵심 개념 -->
+        <section id="n8n-concept">
+            <h2>n8n의 3가지 핵심 개념</h2>
+            <div style="text-align: left; margin-left: 2em;">
+                <h3><strong>1. 워크플로우 (Workflow)</strong></h3>
+                <p>자동화의 전체 시나리오<br>하나의 완성된 자동화 프로세스</p>
+
+                <h3><strong>2. 노드 (Node)</strong></h3>
+                <p>각각의 작업 단위 (레고 블록처럼 조립)<br>데이터 입력, 변환, 출력 등 개별 기능 수행</p>
+
+                <h3><strong>3. 트리거 (Trigger)</strong></h3>
+                <p>자동화를 시작시키는 신호<br>시간, 이벤트, 웹훅 등 다양한 방식</p>
+            </div>
+        </section>
+
+        <!-- 워크플로우 기본 구조 -->
+        <section>
+            <h2>모든 워크플로우의 기본 구조</h2>
+            <div style="display: flex; align-items: center; justify-content: center; gap: 1em; margin: 2em 0;">
+                <div style="padding: 0.5em 1em; background: white; border: 2px solid #3498db; border-radius: 5px;">트리거</div>
+                <div>→</div>
+                <div style="padding: 0.5em 1em; background: white; border: 2px solid #ffc107; border-radius: 5px;">작업</div>
+                <div>→</div>
+                <div style="padding: 0.5em 1em; background: white; border: 2px solid #ffc107; border-radius: 5px;">작업</div>
+                <div>→</div>
+                <div style="padding: 0.5em 1em; background: white; border: 2px solid #28a745; border-radius: 5px;">결과</div>
+            </div>
+            <h3>구체적 예시:</h3>
+            <div style="display: flex; align-items: center; justify-content: center; gap: 1em; margin: 2em 0;">
+                <div style="padding: 0.5em 1em; background: white; border: 2px solid #3498db; border-radius: 5px;">매일 9시</div>
+                <div>→</div>
+                <div style="padding: 0.5em 1em; background: white; border: 2px solid #ffc107; border-radius: 5px;">날씨 확인</div>
+                <div>→</div>
+                <div style="padding: 0.5em 1em; background: white; border: 2px solid #ffc107; border-radius: 5px;">메시지 작성</div>
+                <div>→</div>
+                <div style="padding: 0.5em 1em; background: white; border: 2px solid #28a745; border-radius: 5px;">이메일 전송</div>
+            </div>
+            <div style="display: flex; align-items: center; justify-content: center; gap: 1em; margin: 2em 0;">
+                <div style="padding: 0.5em 1em; background: white; border: 2px solid #3498db; border-radius: 5px;">폼 제출</div>
+                <div>→</div>
+                <div style="padding: 0.5em 1em; background: white; border: 2px solid #ffc107; border-radius: 5px;">데이터 정리</div>
+                <div>→</div>
+                <div style="padding: 0.5em 1em; background: white; border: 2px solid #ffc107; border-radius: 5px;">저장</div>
+                <div>→</div>
+                <div style="padding: 0.5em 1em; background: white; border: 2px solid #28a745; border-radius: 5px;">알림</div>
+            </div>
+            <p style="margin-top: 1em;">이 구조는 모든 자동화의 기본이 됩니다.</p>
+        </section>
+
+        <!-- n8n 접속 -->
+        <section id="n8n-access">
+            <h2>실습 준비: n8n 접속</h2>
+            <div style="text-align: center; margin-top: 1em;">
+                <p style="font-size: 1.2em;"><strong>n8n 홈페이지:</strong> <a href="https://n8n.io/" target="_blank" style="color: #3498db;">https://n8n.io/</a></p>
+            </div>
+        </section>
+
+        <!-- n8n 화면 구성 -->
+        <section>
+            <h2>n8n 화면 구성</h2>
+            <div style="text-align: center; margin: 1.5em 0;">
+                <img src="src/main.png" alt="n8n 화면 구성" style="max-width: 90%; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+            </div>
+            <div class="tip">
+                각자 2분간 화면을 둘러보고 메뉴 위치를 확인하세요
+            </div>
+        </section>
+
+        <!-- 실습 1 -->
+        <section id="practice1" style="background: #3498db; color: white; text-align: center;">
+            <h1>실습 1</h1>
+            <h2 style="color: white;">Hello World 만들기</h2>
+            <p>가장 간단한 워크플로우</p>
+        </section>
+
+        <section>
+            <h2>실습 1: Hello World</h2>
+            <div style="text-align: left;">
+                <p><strong>목표:</strong> 버튼 누르면 메시지 출력</p>
+                <p><strong>노드:</strong> 2개 (Manual Trigger + Edit Fields (Set))</p>
+                <p><strong>예상 시간:</strong> <span class="time-badge">10분</span></p>
+            </div>
+            <div class="practice-note">
+                <strong>실습: 이제부터 실제 n8n 화면에서 함께 실습합니다</strong><br>
+                강사 화면을 보면서 따라해주세요
+            </div>
+            <div style="margin-top: 1em; font-size: 1.1em; font-weight: 500;">
+                <p>이 실습을 통해 노드 추가, 연결, 실행의 기본 흐름을 익힙니다.</p>
+            </div>
+        </section>
+
+        <!-- 실습 1 의미 -->
+        <section>
+            <h2>방금 만든 것의 의미</h2>
+            <div style="display: flex; align-items: center; justify-content: center; gap: 1em; margin: 2em 0;">
+                <div style="padding: 0.5em 1em; background: white; border: 2px solid #3498db; border-radius: 5px;">버튼 클릭</div>
+                <div>→</div>
+                <div style="padding: 0.5em 1em; background: white; border: 2px solid #ffc107; border-radius: 5px;">데이터 생성</div>
+                <div>→</div>
+                <div style="padding: 0.5em 1em; background: white; border: 2px solid #28a745; border-radius: 5px;">결과 출력</div>
+            </div>
+            <div style="text-align: left; margin-top: 1.5em;">
+                <p>단순해 보이지만 다음을 학습했습니다:</p>
+                <ul>
+                    <li>트리거의 개념과 사용법</li>
+                    <li>노드 연결 방법</li>
+                    <li>데이터 흐름 확인 방법</li>
+                </ul>
+            </div>
+            <div class="highlight" style="margin-top: 1em;">
+                <strong>모든 복잡한 자동화도 이 기본 원리로 구성됩니다</strong>
+            </div>
+        </section>
+
+        <!-- 실습 2 -->
+        <section id="practice2" style="background: #3498db; color: white; text-align: center;">
+            <h1>실습 2</h1>
+            <h2 style="color: white;">여러 데이터 한 번에 만들기</h2>
+            <p>Edit Fields (Set) 노드 심화</p>
+        </section>
+
+        <section>
+            <h2>실습 2: 다중 데이터 생성</h2>
+            <div style="text-align: left;">
+                <p><strong>목표:</strong> 여러 종류의 데이터를 한 번에 생성</p>
+                <p><strong>노드:</strong> 2개 (Manual Trigger + Edit Fields (Set))</p>
+                <p><strong>예상 시간:</strong> <span class="time-badge">10분</span></p>
+            </div>
+            <div class="practice-note">
+                <strong>실습: n8n 화면에서 실습</strong><br>
+                실전에서는 이름, 이메일, 날짜 등 여러 데이터를 동시에 처리해야 합니다.
+            </div>
+        </section>
+
+        <!-- 실습 3 -->
+        <section id="practice3" style="background: #3498db; color: white; text-align: center;">
+            <h1>실습 3</h1>
+            <h2 style="color: white;">계산하기</h2>
+            <p>Code 노드 체험</p>
+        </section>
+
+        <section>
+            <h2>실습 3: 계산기</h2>
+            <div style="text-align: left;">
+                <p><strong>목표:</strong> 간단한 계산을 코드로 해보기</p>
+                <p><strong>노드:</strong> 3개 (Manual Trigger + Edit Fields (Set) + Code)</p>
+                <p><strong>예상 시간:</strong> <span class="time-badge">15분</span></p>
+            </div>
+            <div class="practice-note">
+                <strong>실습: n8n 화면에서 실습</strong><br>
+                Code 노드는 복잡한 로직이 필요할 때 사용합니다.<br>
+                코드를 복사-붙여넣기만 하면 되므로 프로그래밍 지식이 없어도 사용 가능합니다.
+            </div>
+            <div class="tip" style="margin-top: 1em;">
+                <strong>📥 워크플로우 파일:</strong> <a href="workflows/practice3_calculator.json" download style="color: #007bff; text-decoration: underline;">practice3_calculator.json</a><br>
+                다운로드 후 n8n에서 Import하여 사용하세요
+            </div>
+            <div style="margin-top: 1em; text-align: left;">
+                <h3 style="font-size: 1.1em;">Code 노드에 붙여넣을 코드:</h3>
+                <pre><code>// Edit Fields (Set) 노드에서 받은 숫자 가져오기
+const num1 = $input.item.json.number1;
+const num2 = $input.item.json.number2;
+
+// 계산 수행
+const sum = num1 + num2;
+const difference = num1 - num2;
+const product = num1 * num2;
+const quotient = num1 / num2;
+
+// 결과 반환
+return {
+  json: {
+    number1: num1,
+    number2: num2,
+    합계: sum,
+    차이: difference,
+    곱셈: product,
+    나눗셈: quotient.toFixed(2)
+  }
+};</code></pre>
+            </div>
+        </section>
+
+        <!-- Code 노드 설명 -->
+        <section>
+            <h2>Code 노드 이해하기</h2>
+            <div style="text-align: left; font-size: 0.95em;">
+                <h3>언제 사용하나요?</h3>
+                <ul>
+                    <li>복잡한 계산이 필요할 때</li>
+                    <li>데이터 형식을 변환해야 할 때</li>
+                    <li>조건부 로직을 구현할 때</li>
+                    <li>기존 노드로 구현하기 어려운 작업</li>
+                </ul>
+                <h3 style="margin-top: 1em;">JavaScript를 모른다면?</h3>
+                <ul>
+                    <li>ChatGPT나 Claude에게 요청하면 코드를 작성해줍니다</li>
+                    <li>대부분의 일반적인 로직은 기존 노드만으로도 충분합니다</li>
+                    <li>간단한 수정은 예제를 참고하여 가능합니다</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 휴식 -->
+        <section id="break1">
+            <h1>휴식</h1>
+            <h2>10분</h2>
+        </section>
+
+        <!-- 실습 4 -->
+        <section id="practice4" style="background: #3498db; color: white; text-align: center;">
+            <h1>실습 4</h1>
+            <h2 style="color: white;">조건 분기 - 나이 확인</h2>
+            <p>IF 노드로 조건 만들기</p>
+        </section>
+
+        <section>
+            <h2>실습 4: 나이 확인</h2>
+            <div style="text-align: left;">
+                <p><strong>목표:</strong> 나이에 따라 다른 메시지 출력</p>
+                <p><strong>노드:</strong> 4개 (Trigger + Edit Fields (Set) + IF + Edit Fields (Set)×2)</p>
+                <p><strong>예상 시간:</strong> <span class="time-badge">15분</span></p>
+            </div>
+            <div class="practice-note">
+                <strong>실습: n8n 화면에서 실습</strong><br>
+                실전 자동화에서는 조건에 따라 다른 처리를 해야 하는 경우가 많습니다.<br>
+                IF 노드는 이러한 조건 분기를 구현합니다.
+            </div>
+            <div class="tip" style="margin-top: 1em;">
+                <strong>📥 워크플로우 파일:</strong> <a href="workflows/practice4_age_check.json" download style="color: #007bff; text-decoration: underline;">practice4_age_check.json</a><br>
+                다운로드 후 n8n에서 Import하여 사용하세요
+            </div>
+        </section>
+
+        <!-- IF 노드 활용 -->
+        <section id="if-examples">
+            <h2>IF 노드의 활용</h2>
+            <div style="background: #f8f9fa; padding: 1.5em; border-radius: 5px; margin: 1em 0;">
+                <div style="display: flex; align-items: center; justify-content: center; gap: 1em;">
+                    <div style="padding: 0.5em 1em; background: white; border: 2px solid #3498db; border-radius: 5px;">데이터</div>
+                    <div>→</div>
+                    <div style="padding: 0.5em 1em; background: white; border: 2px solid #ffc107; border-radius: 5px;">조건 확인</div>
+                    <div style="display: flex; flex-direction: column; gap: 0.5em;">
+                        <div style="display: flex; align-items: center; gap: 0.5em;">
+                            <div>→ true</div>
+                            <div style="padding: 0.5em 1em; background: white; border: 2px solid #28a745; border-radius: 5px;">액션 A</div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 0.5em;">
+                            <div>→ false</div>
+                            <div style="padding: 0.5em 1em; background: white; border: 2px solid #dc3545; border-radius: 5px;">액션 B</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="text-align: left; margin-top: 1em;">
+                <h3>실전 활용 사례:</h3>
+                <ul>
+                    <li>거래 금액이 일정 금액 이상이면 관리자에게 알림</li>
+                    <li>업무 시간인지 확인하여 다르게 처리</li>
+                    <li>특정 키워드가 포함되어 있으면 분류</li>
+                    <li>재고가 부족하면 발주 프로세스 시작</li>
+                </ul>
+            </div>
+            <div class="tip" style="margin-top: 1em; font-size: 1.1em; font-weight: 500;">
+                <strong>📥 실전 예제 워크플로우:</strong><br>
+                <a href="workflows/if_example1_transaction_alert.json" download style="color: #007bff;">1. 거래 금액 알림</a> |
+                <a href="workflows/if_example2_business_hours.json" download style="color: #007bff;">2. 업무 시간 확인</a> |
+                <a href="workflows/if_example3_keyword_filter.json" download style="color: #007bff;">3. 키워드 분류</a> |
+                <a href="workflows/if_example4_inventory_check.json" download style="color: #007bff;">4. 재고 확인</a>
+            </div>
+        </section>
+
+        <!-- 실습 5 -->
+        <section id="practice5" style="background: #3498db; color: white; text-align: center;">
+            <h1>실습 5</h1>
+            <h2 style="color: white;">여러 조건 처리</h2>
+            <p>Switch 노드로 다중 분기</p>
+        </section>
+
+        <section>
+            <h2>실습 5: 성적 등급</h2>
+            <div style="text-align: left;">
+                <p><strong>목표:</strong> 점수에 따라 등급 나누기</p>
+                <p><strong>노드:</strong> 6개 (Trigger + Edit Fields (Set) + Switch + Edit Fields (Set)×5)</p>
+                <p><strong>예상 시간:</strong> <span class="time-badge">15분</span></p>
+            </div>
+            <div class="practice-note">
+                <strong>실습: n8n 화면에서 실습</strong><br>
+                IF 노드는 2개 경로만 가능하지만, Switch 노드는 여러 조건을 순차적으로 검사하여 다중 분기를 구현합니다.
+            </div>
+            <div class="tip" style="margin-top: 1em;">
+                <strong>📥 워크플로우 파일:</strong> <a href="workflows/practice5_grade.json" download style="color: #007bff; text-decoration: underline;">practice5_grade.json</a><br>
+                다운로드 후 n8n에서 Import하여 사용하세요<br>
+                <small>점수 85점 → A(90↑), B(80↑), C(70↑), D(60↑), F(60미만) 등급 분류</small>
+            </div>
+        </section>
+
+        <!-- Switch vs IF -->
+        <section id="switch-examples">
+            <h2>Switch vs IF 비교</h2>
+            <div class="two-column" style="font-size: 1.1em; font-weight: 500;">
+                <div>
+                    <h3>IF 노드</h3>
+                    <ul>
+                        <li><strong>용도:</strong> 2개 경로 분기 (예/아니오)</li>
+                        <li><strong>조건:</strong> 단일 조건 평가</li>
+                        <li><strong>예시:</strong> 승인/거부, 정상/오류, 주중/주말</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Switch 노드</h3>
+                    <ul>
+                        <li><strong>용도:</strong> 3개 이상 경로 분기</li>
+                        <li><strong>조건:</strong> 여러 조건을 순차적으로 평가</li>
+                        <li><strong>예시:</strong> 등급 분류, 우선순위 분류, 상태별 처리</li>
+                    </ul>
+                </div>
+            </div>
+            <div style="margin-top: 1.5em; text-align: left;">
+                <h3>실전 활용:</h3>
+                <ul>
+                    <li>고객 유형별로 다른 메시지 전송</li>
+                    <li>주문 금액에 따른 배송비 계산</li>
+                    <li>업무 중요도에 따른 담당자 배정</li>
+                </ul>
+            </div>
+            <div class="tip" style="margin-top: 1em; font-size: 1.1em; font-weight: 500;">
+                <strong>📥 Switch 실전 예제:</strong><br>
+                <a href="workflows/switch_example1_customer_message.json" download style="color: #007bff;">1. 고객 유형별 메시지</a> |
+                <a href="workflows/switch_example2_shipping_fee.json" download style="color: #007bff;">2. 배송비 계산</a> |
+                <a href="workflows/switch_example3_task_assignment.json" download style="color: #007bff;">3. 담당자 배정</a>
+            </div>
+        </section>
+
+        <!-- 점심 시간 -->
+        <section id="lunch">
+            <h1>점심 시간</h1>
+            <h2>1시간</h2>
+        </section>
+
+        <!-- 실습 6 -->
+        <section id="practice6" style="background: #3498db; color: white; text-align: center;">
+            <h1>실습 6</h1>
+            <h2 style="color: white;">실제 API 사용하기</h2>
+            <p>날씨 정보 가져오기</p>
+        </section>
+
+        <section>
+            <h2>실습 6: 날씨 확인</h2>
+            <div style="text-align: left;">
+                <p><strong>목표:</strong> OpenWeatherMap API로 실제 날씨 확인</p>
+                <p><strong>노드:</strong> 3개 (Manual Trigger + HTTP Request + Edit Fields (Set))</p>
+                <p><strong>예상 시간:</strong> <span class="time-badge">20분</span></p>
+            </div>
+            <div class="practice-note">
+                <strong>실습: n8n 화면에서 실습</strong><br>
+                지금까지는 n8n 내부에서만 작업했습니다.<br>
+                이제 외부 서비스의 데이터를 가져와 실전 자동화를 만들어봅니다.
+            </div>
+            <div class="tip" style="margin-top: 1em;">
+                <strong>📥 워크플로우 파일:</strong> <a href="workflows/practice6_weather.json" download style="color: #007bff; text-decoration: underline;">practice6_weather.json</a><br>
+                다운로드 후 n8n에서 Import하여 사용하세요<br>
+                <small>서울 날씨 정보 조회 (온도, 체감온도, 날씨, 습도)</small>
+            </div>
+        </section>
+
+        <!-- API 이해하기 -->
+        <section id="api-concept">
+            <h2>API 이해하기</h2>
+            <h3>API (Application Programming Interface)</h3>
+            <p>= 다른 서비스의 기능과 데이터를 사용할 수 있게 해주는 인터페이스</p>
+            <div style="text-align: left; margin-top: 1.5em;">
+                <h3>API의 역할:</h3>
+                <ul>
+                    <li>외부 서비스에 데이터 요청</li>
+                    <li>요청에 대한 응답 수신</li>
+                    <li>정해진 규칙(프로토콜)에 따라 통신</li>
+                </ul>
+                <h3 style="margin-top: 1em;">API 활용 예시:</h3>
+                <ul>
+                    <li>날씨 정보 조회</li>
+                    <li>환율 정보 확인</li>
+                    <li>지도에서 주소 검색</li>
+                    <li>텍스트 번역</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- OpenWeatherMap API 키 발급 -->
+        <section>
+            <h2>OpenWeatherMap API 키 발급 방법</h2>
+            <div style="text-align: left; font-size: 0.95em;">
+                <h3>1. 회원가입</h3>
+                <ul>
+                    <li><code>https://openweathermap.org/api</code> 접속</li>
+                    <li>우측 상단 "Sign In" → "Create an Account" 클릭</li>
+                    <li>이메일, 비밀번호, 사용자명 입력 후 가입</li>
+                </ul>
+                <h3 style="margin-top: 1em;">2. API 키 확인</h3>
+                <ul>
+                    <li>로그인 후 "API keys" 메뉴 클릭</li>
+                    <li>기본 API 키가 자동 생성되어 있음 (또는 "Generate" 버튼 클릭)</li>
+                    <li>API 키 복사 (활성화까지 최대 2시간 소요)</li>
+                </ul>
+                <h3 style="margin-top: 1em;">3. 무료 플랜</h3>
+                <ul>
+                    <li>분당 60회 호출 가능</li>
+                    <li>현재 날씨, 5일 예보 등 기본 기능 사용 가능</li>
+                </ul>
+            </div>
+            <div class="tip" style="margin-top: 1em;">
+                <strong>오늘 실습용 API 키:</strong> 강의에서 제공하는 공용 키를 사용합니다
+            </div>
+        </section>
+
+        <!-- API 호출 예시 -->
+        <section>
+            <h2>OpenWeatherMap API 호출 예시</h2>
+            <div style="text-align: left; font-size: 1.1em; font-weight: 500;">
+                <h3>기본 호출 URL (One Call API 3.0)</h3>
+                <pre><code>https://api.openweathermap.org/data/3.0/onecall?lat=37.5665&lon=126.9780&exclude=minutely,hourly,daily,alerts&appid=YOUR_API_KEY&units=metric&lang=kr</code></pre>
+                <h3 style="margin-top: 1em;">파라미터 설명:</h3>
+                <ul>
+                    <li><code>lat</code>: 위도 (예: 서울 37.5665)</li>
+                    <li><code>lon</code>: 경도 (예: 서울 126.9780)</li>
+                    <li><code>exclude</code>: 제외할 데이터 (minutely, hourly, daily, alerts)</li>
+                    <li><code>appid</code>: 발급받은 API 키</li>
+                    <li><code>units</code>: 온도 단위 (metric=섭씨, imperial=화씨)</li>
+                    <li><code>lang</code>: 응답 언어 (kr=한국어, en=영어)</li>
+                </ul>
+                <h3 style="margin-top: 1em;">주요 도시 좌표:</h3>
+                <ul style="font-size: 1.1em; font-weight: 500;">
+                    <li>서울: lat=37.5665, lon=126.9780</li>
+                    <li>부산: lat=35.1796, lon=129.0756</li>
+                    <li>제주: lat=33.4996, lon=126.5312</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 표현식 이해 -->
+        <section>
+            <h2>표현식 {{ }} 이해하기</h2>
+            <div style="text-align: left; font-size: 1.1em; font-weight: 500;">
+                <h3>표현식의 구조</h3>
+                <ul>
+                    <li><code>{{ $json.필드명 }}</code>: 이전 노드의 데이터 참조</li>
+                    <li><code>{{ $json.위도 }}</code>: 단순 필드 접근</li>
+                    <li><code>{{ $json.current.temp }}</code>: 계층 구조 접근 (점 표기법)</li>
+                    <li><code>{{ $json.current.weather[0].description }}</code>: 배열 접근 (인덱스 사용)</li>
+                </ul>
+                <h3 style="margin-top: 1em;">실습 6 예시:</h3>
+                <ul>
+                    <li>Merge 노드 후 데이터: <code>{{ $json.위도 }}</code>, <code>{{ $json.경도 }}</code>, <code>{{ $json.API키 }}</code></li>
+                    <li>API 응답 데이터: <code>{{ $json.current.temp }}</code>, <code>{{ $json.current.humidity }}</code></li>
+                </ul>
+                <h3 style="margin-top: 1em;">주요 변수:</h3>
+                <ul>
+                    <li><code>$json</code>: 이전 노드의 JSON 출력 데이터</li>
+                    <li><code>$input</code>: 전체 입력 데이터 (여러 항목 포함 가능)</li>
+                    <li><code>$node</code>: 특정 노드의 데이터 참조</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 실습 7 -->
+        <section id="practice7" style="background: #3498db; color: white; text-align: center;">
+            <h1>실습 7</h1>
+            <h2 style="color: white;">날씨 + 조건 결합</h2>
+            <p>API + IF 노드 조합</p>
+        </section>
+
+        <section>
+            <h2>실습 7: 날씨 알림</h2>
+            <div style="text-align: left;">
+                <p><strong>목표:</strong> 날씨가 비오면 다른 메시지 출력</p>
+                <p><strong>노드:</strong> 5개 (Schedule + HTTP + Edit Fields (Set) + IF + Edit Fields (Set)×2)</p>
+                <p><strong>예상 시간:</strong> <span class="time-badge">15분</span></p>
+            </div>
+            <div class="practice-note">
+                <strong>실습: n8n 화면에서 실습</strong><br>
+                지금까지 배운 API 호출과 조건 분기를 결합하여 실용적인 자동화를 만들어봅니다.
+            </div>
+            <div class="tip" style="margin-top: 1em;">
+                <strong>📥 워크플로우 파일:</strong> <a href="workflows/practice7_weather_alert.json" download style="color: #007bff; text-decoration: underline;">practice7_weather_alert.json</a><br>
+                다운로드 후 n8n에서 Import하여 사용하세요<br>
+                <small>매시간 날씨 확인 후 비 오면 우산 알림</small>
+            </div>
+        </section>
+
+        <!-- 조합의 힘 -->
+        <section>
+            <h2>조합의 힘</h2>
+            <div style="display: flex; align-items: center; justify-content: center; gap: 0.5em; margin: 2em 0; flex-wrap: wrap;">
+                <div style="padding: 0.5em 1em; background: white; border: 2px solid #3498db; border-radius: 5px;">스케줄</div>
+                <div>→</div>
+                <div style="padding: 0.5em 1em; background: white; border: 2px solid #ffc107; border-radius: 5px;">API 호출</div>
+                <div>→</div>
+                <div style="padding: 0.5em 1em; background: white; border: 2px solid #ffc107; border-radius: 5px;">데이터 정리</div>
+                <div>→</div>
+                <div style="padding: 0.5em 1em; background: white; border: 2px solid #e67e22; border-radius: 5px;">조건 확인</div>
+                <div style="display: flex; flex-direction: column; gap: 0.5em; margin-top: 1em; width: 100%;">
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 0.5em;">
+                        <div style="font-size: 0.8em; color: #666;">비 옴 →</div>
+                        <div style="padding: 0.4em 0.8em; background: white; border: 2px solid #28a745; border-radius: 5px; font-size: 1.1em; font-weight: 500;">우산 알림</div>
+                    </div>
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 0.5em;">
+                        <div style="font-size: 0.8em; color: #666;">안 옴 →</div>
+                        <div style="padding: 0.4em 0.8em; background: white; border: 2px solid #17a2b8; border-radius: 5px; font-size: 1.1em; font-weight: 500;">일반 알림</div>
+                    </div>
+                </div>
+            </div>
+            <div style="text-align: left; margin-top: 1.5em;">
+                <h3>지금까지 배운 요소들:</h3>
+                <ul>
+                    <li>Schedule Trigger: 정기 실행</li>
+                    <li>HTTP Request: 외부 데이터 수집</li>
+                    <li>Set: 데이터 정리</li>
+                    <li>IF: 조건부 처리</li>
+                </ul>
+                <p style="margin-top: 1em;">이제 이러한 기본 요소들을 조합하여 실전 자동화를 만들 수 있습니다.</p>
+            </div>
+        </section>
+
+        <!-- 휴식 -->
+        <section id="break2">
+            <h1>휴식</h1>
+            <h2>10분</h2>
+        </section>
+
+        <!-- 실습 8 -->
+        <section id="practice8" style="background: #3498db; color: white; text-align: center;">
+            <h1>실습 8</h1>
+            <h2 style="color: white;">웹훅으로 외부 연동</h2>
+            <p>Webhook Trigger 사용하기</p>
+        </section>
+
+        <section>
+            <h2>실습 8: 웹훅 테스트</h2>
+            <div style="text-align: left;">
+                <p><strong>목표:</strong> 외부에서 데이터 받아 처리하기</p>
+                <p><strong>노드:</strong> 워크플로우 2개 (총 7개 노드)</p>
+                <ul style="text-align: left; margin-top: 0.5em;">
+                    <li><strong>서버 워크플로우:</strong> 4개 노드 (Webhook + Edit Fields + Edit Fields1 + Respond)</li>
+                    <li><strong>클라이언트 워크플로우:</strong> 3개 노드 (Manual Trigger + Edit Fields + HTTP Request)</li>
+                </ul>
+                <p><strong>예상 시간:</strong> <span class="time-badge">20분</span></p>
+            </div>
+            <div class="practice-note">
+                <strong>실습: n8n 화면에서 실습</strong><br>
+                웹훅은 외부 시스템이 n8n에 데이터를 전송할 수 있게 하는 통로입니다.<br>
+                실시간 연동이 필요한 경우에 활용합니다.
+            </div>
+
+            <div style="background: #f8f9fa; padding: 1.5em; border-radius: 8px; margin-top: 1em;">
+                <h3>🔗 웹훅 테스트 워크플로우 (2개)</h3>
+
+                <!-- 서버 워크플로우 -->
+                <div style="margin-bottom: 2em;">
+                    <h4>📡 서버 워크플로우 (요청 수신)</h4>
+                    <div style="display: flex; justify-content: center; align-items: center; gap: 15px; margin: 1.5em 0; flex-wrap: wrap;">
+                        <div style="background: #e3f2fd; padding: 15px; border-radius: 8px; text-align: center; min-width: 120px;">
+                            <strong>Webhook</strong><br>
+                            <small>외부 요청 수신</small>
+                        </div>
+                        <div style="font-size: 1.5em;">→</div>
+                        <div style="background: #e8f5e8; padding: 15px; border-radius: 8px; text-align: center; min-width: 120px;">
+                            <strong>Edit Fields</strong><br>
+                            <small>응답 메시지 생성</small>
+                        </div>
+                        <div style="font-size: 1.5em;">→</div>
+                        <div style="background: #fff3e0; padding: 15px; border-radius: 8px; text-align: center; min-width: 120px;">
+                            <strong>Edit Fields1</strong><br>
+                            <small>로그 메시지 생성</small>
+                        </div>
+                        <div style="font-size: 1.5em;">→</div>
+                        <div style="background: #fce4ec; padding: 15px; border-radius: 8px; text-align: center; min-width: 120px;">
+                            <strong>Respond</strong><br>
+                            <small>JSON 응답 반환</small>
+                        </div>
+                    </div>
+                    <div style="text-align: center;">
+                        <a href="workflows/practice8_webhook_server.json" download style="background: #2196F3; color: white; padding: 8px 16px; text-decoration: none; border-radius: 20px; font-weight: bold; display: inline-block; font-size: 1.1em; font-weight: 500;">
+                            📥 서버 워크플로우 다운로드
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 클라이언트 워크플로우 -->
+                <div style="margin-bottom: 2em;">
+                    <h4>📤 클라이언트 워크플로우 (요청 전송)</h4>
+                    <div style="display: flex; justify-content: center; align-items: center; gap: 15px; margin: 1.5em 0; flex-wrap: wrap;">
+                        <div style="background: #f3e5f5; padding: 15px; border-radius: 8px; text-align: center; min-width: 120px;">
+                            <strong>Manual Trigger</strong><br>
+                            <small>수동 실행</small>
+                        </div>
+                        <div style="font-size: 1.5em;">→</div>
+                        <div style="background: #e0f2f1; padding: 15px; border-radius: 8px; text-align: center; min-width: 120px;">
+                            <strong>Edit Fields</strong><br>
+                            <small>요청 데이터 준비</small>
+                        </div>
+                        <div style="font-size: 1.5em;">→</div>
+                        <div style="background: #fff8e1; padding: 15px; border-radius: 8px; text-align: center; min-width: 120px;">
+                            <strong>HTTP Request</strong><br>
+                            <small>웹훅 호출</small>
+                        </div>
+                    </div>
+                    <div style="text-align: center;">
+                        <a href="workflows/practice8_http_client.json" download style="background: #4CAF50; color: white; padding: 8px 16px; text-decoration: none; border-radius: 20px; font-weight: bold; display: inline-block; font-size: 1.1em; font-weight: 500;">
+                            📥 클라이언트 워크플로우 다운로드
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 테스트 방법 -->
+                <div style="text-align: left; margin-top: 1.5em;">
+                    <h4>🎯 테스트 순서:</h4>
+                    <ol style="background: #f5f5f5; padding: 1em; border-radius: 5px;">
+                        <li><strong>서버 워크플로우 실행</strong> - 웹훅 URL 복사</li>
+                        <li><strong>클라이언트 워크플로우에서 URL 수정</strong> - 복사한 URL 붙여넣기</li>
+                        <li><strong>클라이언트 워크플로우 실행</strong> - Manual Trigger 클릭</li>
+                        <li><strong>결과 확인</strong> - HTTP Request 노드 응답 확인</li>
+                    </ol>
+
+                    <h4 style="margin-top: 1em;">🎯 기대 결과:</h4>
+                    <div style="background: #263238; color: #81c784; padding: 1em; border-radius: 5px; font-family: 'Courier New', monospace; font-size: 1.1em; font-weight: 500;">
+[<br>
+&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"로그": "[2025-11-13T03:40:18.230Z] 웹훅 요청 수신 - 🔗 웹훅 테스트가 성공적으로 실행되었습니다!\\n\\n요청 시간: 2025. 11. 13. 오전 3:40:18\\n수신된 데이터: {\"name\":\"수강자\",\"message\":\"웹훅 테스트 요청입니다\",\"timestamp\":\"2025-11-13T03:40:17.991Z\",\"practice\":\"실습 8\"}"<br>
+&nbsp;&nbsp;}<br>
+]
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 웹훅 이해하기 -->
+        <section>
+            <h2>웹훅(Webhook) 이해하기</h2>
+            <div class="two-column" style="font-size: 1.1em; font-weight: 500;">
+                <div>
+                    <h3>일반 트리거 (Polling)</h3>
+                    <p>n8n이 주기적으로 외부 서비스 확인</p>
+                    <p>예: 1분마다 구글 시트 확인</p>
+                </div>
+                <div>
+                    <h3>웹훅 (Webhook)</h3>
+                    <p>외부 서비스가 n8n에게 직접 알림</p>
+                    <p>이벤트 발생 즉시 처리 가능</p>
+                </div>
+            </div>
+            <div style="text-align: left; margin-top: 1.5em;">
+                <h3>웹훅 사용 사례:</h3>
+                <ul>
+                    <li>구글 폼 제출 → n8n 즉시 처리</li>
+                    <li>결제 완료 → 자동 처리 시작</li>
+                    <li>외부 시스템 이벤트 → n8n 연동</li>
+                    <li>다른 자동화 도구 → n8n 연결</li>
+                </ul>
+                <p style="margin-top: 1em;"><strong>장점:</strong> 실시간 처리, 불필요한 반복 확인 없음</p>
+            </div>
+        </section>
+
+        <!-- 실습 9 -->
+        <section id="practice9" style="background: #3498db; color: white; text-align: center;">
+            <h1>실습 9</h1>
+            <h2 style="color: white;">구글 시트 읽기/쓰기</h2>
+            <p>간단한 데이터베이스 연동</p>
+        </section>
+
+        <section>
+            <h2>실습 9: 구글 시트 연동</h2>
+            <div style="text-align: left;">
+                <p><strong>목표:</strong> 구글 시트에서 데이터 읽고 쓰기</p>
+                <p><strong>노드:</strong> 읽기(2개) + 쓰기(3개)</p>
+                <p><strong>예상 시간:</strong> <span class="time-badge">25분</span></p>
+            </div>
+            <div class="practice-note">
+                <strong>실습: n8n 화면에서 실습</strong><br>
+                구글 시트는 간단한 데이터베이스 역할을 할 수 있으며,<br>
+                n8n과 가장 많이 연동되는 서비스 중 하나입니다.
+            </div>
+
+            <!-- 구글 시트 연동 이미지 -->
+            <div style="margin-top: 2em;">
+                <h3>📊 구글 시트 연동 과정</h3>
+                <div style="display: flex; flex-direction: column; gap: 1.5em; margin-top: 1em;">
+                    <div style="text-align: center;">
+                        <img src="src/google_sheet_connection.png" alt="구글 시트 연결" style="width: 100%; border-radius: 8px; border: 1px solid #ddd;">
+                        <p style="margin-top: 0.5em; font-size: 1.1em; font-weight: 500;">1. 구글시트 노드 검색</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <img src="src/sheet_data_read.png" alt="스프레드시트 생성 액션 선택" style="width: 100%;  border-radius: 8px; border: 1px solid #ddd;">
+                        <p style="margin-top: 0.5em; font-size: 1.1em; font-weight: 500;">2. 스프레드시트 생성 액션 선택</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <img src="src/sheet_data_process.png" alt="크레덴셜 선택" style="width: 100%;  border-radius: 8px; border: 1px solid #ddd;">
+                        <p style="margin-top: 0.5em; font-size: 1.1em; font-weight: 500;">3. 크레덴셜 선택</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <img src="src/sheet_data_write.png" alt="새로운 크레덴셜 만들기" style="width: 100%;  border-radius: 8px; border: 1px solid #ddd;">
+                        <p style="margin-top: 0.5em; font-size: 1.1em; font-weight: 500;">4. 새로운 크레덴셜 만들기</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <img src="src/sheet_workflow.png" alt="구글인증" style="width: 100%;  border-radius: 8px; border: 1px solid #ddd;">
+                        <p style="margin-top: 0.5em; font-size: 1.1em; font-weight: 500;">5. 구글인증</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <img src="src/sheet_api_setup.png" alt="구글인증 확인" style="width: 100%;  border-radius: 8px; border: 1px solid #ddd;">
+                        <p style="margin-top: 0.5em; font-size: 1.1em; font-weight: 500;">6. 구글인증 확인</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <img src="src/sheet_auth.png" alt="구글시트 만들기 설정화면" style="width: 100%;  border-radius: 8px; border: 1px solid #ddd;">
+                        <p style="margin-top: 0.5em; font-size: 1.1em; font-weight: 500;">7. 구글시트 만들기 설정화면</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <img src="src/sheet_result.png" alt="내드라이브에서 구글시트 확인하기" style="width: 100%;  border-radius: 8px; border: 1px solid #ddd;">
+                        <p style="margin-top: 0.5em; font-size: 1.1em; font-weight: 500;">8. 내드라이브에서 구글시트 확인하기</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 구글 시트 활용 -->
+        <section>
+            <h2>구글 시트 활용 방안</h2>
+            <div style="text-align: left; font-size: 1.1em; font-weight: 500;">
+                <h3>간단한 데이터베이스 역할</h3>
+                <ul>
+                    <li>소규모 데이터 저장 및 관리</li>
+                    <li>팀원들과 쉽게 공유 가능</li>
+                    <li>별도 데이터베이스 서버 불필요</li>
+                </ul>
+                <h3 style="margin-top: 1em;">실전 조합 패턴:</h3>
+                <ul>
+                    <li>웹훅으로 데이터 수신 → 시트에 자동 저장</li>
+                    <li>폼 제출 내용 → 시트에 기록</li>
+                    <li>정기 리포트 생성 → 시트에 작성</li>
+                </ul>
+                <h3 style="margin-top: 1em;">주의사항:</h3>
+                <ul>
+                    <li>대용량 데이터(수만 행 이상)는 실제 데이터베이스 권장</li>
+                    <li>동시 쓰기 작업이 많으면 충돌 가능</li>
+                    <li>민감한 데이터는 보안 고려 필요</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 실습 10 -->
+        <section id="practice10" style="background: #3498db; color: white; text-align: center;">
+            <h1>실습 10</h1>
+            <h2 style="color: white;">Slack 알림 보내기</h2>
+            <p>팀 협업 도구 연동</p>
+        </section>
+
+        <section>
+            <h2>실습 10: 슬랙 알림</h2>
+            <div style="text-align: left;">
+                <p><strong>목표:</strong> 구글 시트 업데이트 시 슬랙 알림</p>
+                <p><strong>노드:</strong> 3개 (Google Sheets Trigger + Edit Fields (Set) + Slack)</p>
+                <p><strong>예상 시간:</strong> <span class="time-badge">20분</span></p>
+            </div>
+            <div class="practice-note">
+                <strong>실습: n8n 화면에서 실습</strong><br>
+                슬랙은 팀 협업에서 가장 많이 사용되는 도구입니다.<br>
+                실시간 알림 채널로 활용하면 효과적입니다.
+            </div>
+        </section>
+
+        <!-- 학습 정리 -->
+        <section>
+            <h2>지금까지의 학습 정리</h2>
+            <h3>완료한 실습: 10개</h3>
+            <div class="two-column" style="font-size: 0.85em; text-align: left;">
+                <div>
+                    <h3>기본 노드:</h3>
+                    <p>Edit Fields (Set), Code - 데이터 생성 및 처리</p>
+                    <h3>조건 처리:</h3>
+                    <p>IF, Switch - 조건에 따른 분기</p>
+                </div>
+                <div>
+                    <h3>외부 연동:</h3>
+                    <ul>
+                        <li>HTTP Request (API 호출)</li>
+                        <li>Webhook (외부에서 데이터 수신)</li>
+                        <li>Google Sheets (읽기/쓰기/트리거)</li>
+                        <li>Slack (팀 알림)</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="highlight" style="margin-top: 1em;">
+                <strong>이제 대부분의 업무 자동화를 구현할 수 있는 기초를 갖췄습니다</strong>
+            </div>
+        </section>
+
+        <!-- 휴식 -->
+        <section id="break3">
+            <h1>휴식</h1>
+            <h2>10분</h2>
+        </section>
+
+        <!-- 템플릿 라이브러리 -->
+        <section id="templates">
+            <h2>n8n 템플릿 라이브러리 활용</h2>
+            <h3>1,000개 이상의 완성된 워크플로우</h3>
+            <div style="text-align: left;">
+                <h3>템플릿의 가치:</h3>
+                <ul>
+                    <li>실무에서 검증된 패턴</li>
+                    <li>복사하여 즉시 사용 가능</li>
+                    <li>다른 사람의 구현 방식 학습</li>
+                    <li>시행착오 줄이고 빠른 구축</li>
+                </ul>
+                <div class="highlight" style="margin-top: 1em;">
+                    <strong>접속:</strong> n8n.io/workflows
+                </div>
+            </div>
+        </section>
+
+        <!-- 템플릿 카테고리 -->
+        <section>
+            <h2>템플릿 카테고리</h2>
+            <div style="text-align: left; font-size: 1.1em; font-weight: 500;">
+                <h3>주요 카테고리:</h3>
+                <ul>
+                    <li><strong>Communication:</strong> 이메일, 슬랙, 디스코드 등 통신 도구 연동</li>
+                    <li><strong>Productivity:</strong> 구글 워크스페이스, Notion, Airtable 등</li>
+                    <li><strong>Social Media:</strong> 트위터, 인스타그램, 링크드인 자동화</li>
+                    <li><strong>AI & ML:</strong> ChatGPT, 이미지 생성, 텍스트 분석</li>
+                    <li><strong>Sales & CRM:</strong> 고객 관리, 영업 자동화</li>
+                    <li><strong>Marketing:</strong> 캠페인 관리, 리드 수집, 분석</li>
+                </ul>
+                <h3 style="margin-top: 1em;">필터링 기능:</h3>
+                <ul>
+                    <li>인기순, 최신순 정렬</li>
+                    <li>사용하는 앱으로 검색</li>
+                    <li>난이도별 분류</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 자유 실습 -->
+        <section id="free-practice">
+            <h2>자유 실습 시간</h2>
+            <h3><span class="time-badge">40분</span></h3>
+            <div style="text-align: left;">
+                <h3>선택 가능한 활동:</h3>
+                <p><strong>Option 1: 복습</strong><br>
+                오늘 배운 10개 실습 다시 만들어보기, 막혔던 부분 재확인</p>
+
+                <p><strong>Option 2: 템플릿 탐색</strong><br>
+                더 많은 템플릿 찾아보기, 다양한 앱 연동 방식 학습</p>
+
+                <p><strong>Option 3: 실전 자동화</strong><br>
+                자신의 업무 중 자동화할 작업 구상, 간단한 버전부터 구현 시도</p>
+            </div>
+            <div class="tip">
+                질문이 있으면 언제든 편하게 하세요.
+            </div>
+        </section>
+
+        <!-- 내 업무 자동화 아이디어 -->
+        <section>
+            <h2>내 업무 자동화 아이디어 찾기</h2>
+            <div style="text-align: left; font-size: 1.1em; font-weight: 500;">
+                <h3>자동화 후보를 찾는 질문:</h3>
+                <ul>
+                    <li>매일 또는 매주 반복하는 작업은 무엇인가?</li>
+                    <li>여러 앱을 오가며 하는 일은?</li>
+                    <li>복사-붙여넣기를 자주 하는 작업은?</li>
+                    <li>"이게 자동이면 좋겠다"고 생각한 적 있는가?</li>
+                    <li>팀원에게 반복적으로 알려줘야 하는 정보는?</li>
+                    <li>정기적으로 확인해야 하는 데이터는?</li>
+                </ul>
+                <div class="highlight" style="margin-top: 1em;">
+                    <strong>종이나 메모장에 최소 3개 이상 적어보세요</strong>
+                </div>
+            </div>
+        </section>
+
+        <!-- 자동화 가능성 판단 -->
+        <section>
+            <h2>자동화 가능성 판단</h2>
+            <div class="two-column" style="font-size: 0.85em;">
+                <div>
+                    <h3 style="color: #28a745;">자동화하기 적합한 작업</h3>
+                    <ul>
+                        <li>규칙이 명확하고 일관됨</li>
+                        <li>자주 반복됨 (일, 주, 월 단위)</li>
+                        <li>데이터 기반 작업</li>
+                        <li>여러 단계로 구성</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 style="color: #dc3545;">자동화가 어려운 작업</h3>
+                    <ul>
+                        <li>매번 다른 판단이 필요</li>
+                        <li>창의성이나 감성이 중요</li>
+                        <li>규칙이 모호하거나 예외가 많음</li>
+                        <li>한 번만 수행하는 작업</li>
+                    </ul>
+                </div>
+            </div>
+            <div style="margin-top: 1.5em; text-align: left;">
+                <h3>판단 기준:</h3>
+                <ul>
+                    <li>시간 절약 효과</li>
+                    <li>에러 감소 효과</li>
+                    <li>구현 난이도</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 자동화 시작 전략 -->
+        <section>
+            <h2>자동화 시작 전략</h2>
+            <div style="text-align: left; font-size: 1.1em; font-weight: 500;">
+                <h3>1단계: 작게 시작</h3>
+                <ul>
+                    <li>2-3개 노드로 구성 가능한 것부터</li>
+                    <li>한 번에 하나씩만 자동화</li>
+                    <li>성공 경험을 쌓기</li>
+                </ul>
+                <h3>2단계: 점진적 확장</h3>
+                <ul>
+                    <li>기본 동작이 확인되면 기능 추가</li>
+                    <li>조건 분기 추가</li>
+                    <li>다른 앱 연결</li>
+                </ul>
+                <h3>3단계: 최적화</h3>
+                <ul>
+                    <li>에러 처리 추가</li>
+                    <li>알림 방식 개선</li>
+                    <li>성능 향상</li>
+                </ul>
+                <p style="margin-top: 1em;"><strong>완벽을 추구하지 말고 작동하는 것부터 만들어보세요.</strong></p>
+            </div>
+        </section>
+
+        <!-- 디버깅 팁 -->
+        <section>
+            <h2>디버깅 방법</h2>
+            <div style="text-align: left; font-size: 0.85em;">
+                <h3>데이터 흐름 확인:</h3>
+                <ul>
+                    <li>각 노드를 클릭하여 Input/Output 탭 확인</li>
+                    <li>문제가 있는 노드 이전에 Edit Fields (Set) 노드를 추가하여 데이터 구조 파악</li>
+                    <li>표현식이 올바른 값을 참조하는지 확인</li>
+                </ul>
+                <h3>단계적 테스트:</h3>
+                <ul>
+                    <li>Manual Trigger로 수동 실행하며 단계별 확인</li>
+                    <li>작은 데이터셋으로 먼저 테스트</li>
+                    <li>한 번에 하나씩 노드 추가하며 검증</li>
+                </ul>
+                <h3>에러 메시지 활용:</h3>
+                <ul>
+                    <li>에러 메시지를 자세히 읽기</li>
+                    <li>구글 검색: "n8n [에러 메시지]"</li>
+                    <li>n8n 커뮤니티 포럼에서 검색</li>
+                    <li>ChatGPT나 Claude에게 에러 메시지 설명 요청</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 오늘 배운 내용 정리 -->
+        <section id="summary">
+            <h2>오늘 배운 내용 정리</h2>
+            <div style="text-align: left; font-size: 1.1em; font-weight: 500;">
+                <h3>핵심 개념:</h3>
+                <ul>
+                    <li>워크플로우, 노드, 트리거</li>
+                    <li>데이터 흐름과 표현식 {{ }}</li>
+                    <li>조건 분기 (IF, Switch)</li>
+                </ul>
+                <h3>실습한 노드:</h3>
+                <ul>
+                    <li><strong>트리거:</strong> Manual, Schedule, Webhook, Google Sheets Trigger</li>
+                    <li><strong>데이터 처리:</strong> Edit Fields (Set), Code</li>
+                    <li><strong>조건:</strong> IF, Switch</li>
+                    <li><strong>연동:</strong> HTTP Request, Google Sheets, Slack</li>
+                </ul>
+                <div class="highlight" style="margin-top: 1em;">
+                    <strong>완성한 워크플로우: 10개</strong>
+                </div>
+            </div>
+        </section>
+
+        <!-- 주요 패턴 -->
+        <section>
+            <h2>주요 워크플로우 패턴</h2>
+            <div style="font-size: 1.1em; font-weight: 500; text-align: left;">
+                <div style="margin-bottom: 2em;">
+                    <h3 style="color: #3498db; margin-bottom: 1em;">1. 정기 작업</h3>
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 0.8em; margin: 1.5em 0;">
+                        <div style="padding: 0.4em 0.8em; background: white; border: 2px solid #3498db; border-radius: 5px;">Schedule Trigger</div>
+                        <div>→</div>
+                        <div style="padding: 0.4em 0.8em; background: white; border: 2px solid #ffc107; border-radius: 5px;">작업 수행</div>
+                        <div>→</div>
+                        <div style="padding: 0.4em 0.8em; background: white; border: 2px solid #28a745; border-radius: 5px;">결과 알림</div>
+                    </div>
+                    <p style="text-align: center; color: #666; font-size: 1.1em; font-weight: 500;">예: 매일 아침 날씨 확인 후 이메일 발송</p>
+                </div>
+
+                <div style="margin-bottom: 2em;">
+                    <h3 style="color: #3498db; margin-bottom: 1em;">2. 외부 연동</h3>
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 0.8em; margin: 1.5em 0;">
+                        <div style="padding: 0.4em 0.8em; background: white; border: 2px solid #3498db; border-radius: 5px;">Webhook</div>
+                        <div>→</div>
+                        <div style="padding: 0.4em 0.8em; background: white; border: 2px solid #ffc107; border-radius: 5px;">데이터 처리</div>
+                        <div>→</div>
+                        <div style="padding: 0.4em 0.8em; background: white; border: 2px solid #28a745; border-radius: 5px;">저장 및 알림</div>
+                    </div>
+                    <p style="text-align: center; color: #666; font-size: 1.1em; font-weight: 500;">예: 폼 제출 시 구글 시트 저장 + 슬랙 알림</p>
+                </div>
+
+                <div style="margin-bottom: 2em;">
+                    <h3 style="color: #3498db; margin-bottom: 1em;">3. 조건부 처리</h3>
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 0.8em; margin: 1.5em 0;">
+                        <div style="padding: 0.4em 0.8em; background: white; border: 2px solid #3498db; border-radius: 5px;">트리거</div>
+                        <div>→</div>
+                        <div style="padding: 0.4em 0.8em; background: white; border: 2px solid #e67e22; border-radius: 5px;">IF 노드</div>
+                        <div>→</div>
+                        <div style="padding: 0.4em 0.8em; background: white; border: 2px solid #28a745; border-radius: 5px;">조건별 분기 처리</div>
+                    </div>
+                    <p style="text-align: center; color: #666; font-size: 1.1em; font-weight: 500;">예: 금액에 따라 다른 승인 프로세스</p>
+                </div>
+
+                <div style="margin-bottom: 2em;">
+                    <h3 style="color: #3498db; margin-bottom: 1em;">4. 데이터 파이프라인</h3>
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 0.8em; margin: 1.5em 0;">
+                        <div style="padding: 0.4em 0.8em; background: white; border: 2px solid #3498db; border-radius: 5px;">데이터 소스</div>
+                        <div>→</div>
+                        <div style="padding: 0.4em 0.8em; background: white; border: 2px solid #ffc107; border-radius: 5px;">변형/정리</div>
+                        <div>→</div>
+                        <div style="padding: 0.4em 0.8em; background: white; border: 2px solid #28a745; border-radius: 5px;">목적지 저장</div>
+                    </div>
+                    <p style="text-align: center; color: #666; font-size: 1.1em; font-weight: 500;">예: API에서 데이터 수집 → 정리 → 구글 시트 저장</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 다음 단계 -->
+        <section>
+            <h2>다음 단계 학습 로드맵</h2>
+            <div style="text-align: left; font-size: 1.1em; font-weight: 500;">
+                <h3>초급 완료 후:</h3>
+                <ul>
+                    <li>더 많은 앱 연동 (Notion, Airtable, Discord, Telegram 등)</li>
+                    <li>복잡한 데이터 변형 및 가공</li>
+                    <li>Error Workflow로 에러 처리</li>
+                    <li>Sub-workflow로 재사용 가능한 로직 구성</li>
+                </ul>
+                <h3>중급 주제:</h3>
+                <ul>
+                    <li>PostgreSQL, MySQL 등 데이터베이스 직접 연결</li>
+                    <li>Custom API 엔드포인트 만들기</li>
+                    <li>대용량 데이터 배치 처리</li>
+                    <li>성능 최적화 및 모니터링</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 유용한 리소스 -->
+        <section>
+            <h2>유용한 학습 리소스</h2>
+            <div style="text-align: left; font-size: 1.1em; font-weight: 500;">
+                <div class="two-column">
+                    <div>
+                        <h3>공식 문서</h3>
+                        <p>docs.n8n.io<br>
+                        각 노드별 상세 설명 및 예제<br>
+                        표현식 문법 레퍼런스</p>
+
+                        <h3>커뮤니티</h3>
+                        <p>community.n8n.io<br>
+                        질문/답변, 사용 사례 공유<br>
+                        다른 사용자의 문제 해결 방법</p>
+                    </div>
+                    <div>
+                        <h3>YouTube</h3>
+                        <p>n8n 공식 채널<br>
+                        단계별 튜토리얼 영상<br>
+                        실전 사례 소개</p>
+
+                        <h3>템플릿</h3>
+                        <p>n8n.io/workflows<br>
+                        실전 워크플로우 예제<br>
+                        다양한 앱 연동 방법</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 과제 -->
+        <section>
+            <h2>과제 (선택사항)</h2>
+            <div style="text-align: left;">
+                <h3>다음 수업까지:</h3>
+                <ol>
+                    <li>오늘 만든 워크플로우 중 1개를 실제 업무에 적용해보기</li>
+                    <li>템플릿 라이브러리에서 2개 이상 가져와서 분석</li>
+                    <li>자신의 업무 자동화 아이디어 3개 구체화 (어떤 노드를 사용할지 계획)</li>
+                    <li>가능하면 간단한 자동화 1개 완성</li>
+                </ol>
+                <p style="margin-top: 1em;">다음 수업에서 경험을 공유하는 시간을 가지겠습니다.</p>
+            </div>
+        </section>
+
+        <!-- Day 2 예고 -->
+        <section>
+            <h2>Day 2 예고</h2>
+            <div style="text-align: left;">
+                <h3>다루게 될 내용:</h3>
+                <ul>
+                    <li>실제 업무 사례 기반 자동화 구축</li>
+                    <li>여러 서비스를 연결한 복잡한 워크플로우</li>
+                    <li>반복문 (Loop) 및 배열 처리</li>
+                    <li>Error Trigger 및 에러 처리 방법</li>
+                    <li>나만의 자동화 프로젝트 구현 및 발표</li>
+                </ul>
+                <p style="margin-top: 1em;"><strong>더 실전적이고 복잡한 자동화를 만들어봅니다.</strong></p>
+            </div>
+        </section>
+
+        <!-- 오늘의 성과 -->
+        <section>
+            <h2>오늘의 성과</h2>
+            <div style="text-align: left;">
+                <h3>여러분이 달성한 것:</h3>
+                <ul>
+                    <li>10개의 워크플로우 직접 제작</li>
+                    <li>API, 구글 시트, 슬랙 연동 경험</li>
+                    <li>조건부 로직 구현 능력</li>
+                    <li>템플릿 활용법 습득</li>
+                    <li>자동화의 기본 원리 이해</li>
+                </ul>
+                <p style="margin-top: 1em;"><strong>n8n의 기초를 확실히 다졌습니다.</strong></p>
+            </div>
+        </section>
+
+        <!-- Q&A -->
+        <section>
+            <h2>Q&A</h2>
+            <h3>질문이 있으신가요?</h3>
+            <div style="text-align: left; margin-top: 1em;">
+                <p>다음 주제에 대해 자유롭게 질문하세요:</p>
+                <ul>
+                    <li>오늘 배운 내용 중 이해가 어려운 부분</li>
+                    <li>실습에서 막혔던 부분</li>
+                    <li>자신의 자동화 아이디어 검증</li>
+                    <li>다음 시간 궁금한 점</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 피드백 -->
+        <section>
+            <h2>피드백 요청</h2>
+            <div style="text-align: left;">
+                <h3>간단한 설문 (익명 가능):</h3>
+                <ol>
+                    <li>오늘 강의 진행 속도는? (빠름/적당/느림)</li>
+                    <li>가장 어려웠던 부분은?</li>
+                    <li>더 자세히 알고 싶은 내용은?</li>
+                    <li>실습 시간은 충분했나요?</li>
+                    <li>다음 시간 기대하는 내용은?</li>
+                </ol>
+                <p style="margin-top: 1em;"><strong>여러분의 피드백은 강의 개선에 큰 도움이 됩니다.</strong></p>
+            </div>
+        </section>
+
+        <!-- 마무리 -->
+        <section>
+            <h2>마무리</h2>
+            <div style="text-align: left;">
+                <p>오늘 하루 수고하셨습니다.</p>
+                <p style="margin-top: 1em;">n8n의 기본 개념과 주요 노드 사용법을 익혔습니다.<br>
+                이제 간단한 자동화는 직접 만들 수 있는 수준입니다.</p>
+                <p style="margin-top: 1em;">집에 가서 한 번 더 복습하면 더욱 확실하게 내 것이 됩니다.<br>
+                반복 연습이 실력 향상의 핵심입니다.</p>
+                <p style="margin-top: 1.5em;"><strong>다음 수업에서 만나겠습니다.</strong></p>
+            </div>
+        </section>
+
+        <!-- 연락처 -->
+        <section>
+            <h2>연락처 및 자료</h2>
+            <div style="text-align: left; font-size: 1.1em; font-weight: 500;">
+                <p><strong>강사 연락처:</strong> [이메일 주소]</p>
+                <p><strong>커뮤니케이션 채널:</strong> [슬랙/카카오톡 채널 링크]</p>
+                <h3 style="margin-top: 1em;">강의 자료 다운로드:</h3>
+                <ul>
+                    <li>슬라이드: [다운로드 링크]</li>
+                    <li>예제 워크플로우 JSON: [공유 링크]</li>
+                    <li>추가 학습 자료: [구글 드라이브 링크]</li>
+                </ul>
+                <p style="margin-top: 1em;"><strong>수업 외 시간에도 질문 환영합니다</strong></p>
+            </div>
+        </section>
+
+        <p style="text-align: center; color: #999; margin-top: 50px;">
+            n8n 자동화 초급 과정 Day 1 - 5시간 강의
+        </p>
+    </main>
+
+    <script>
+        // 현재 스크롤 위치에 따라 네비게이션 하이라이트
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('nav a');
+
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (window.pageYOffset >= sectionTop - 100) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // 부드러운 스크롤
+        document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

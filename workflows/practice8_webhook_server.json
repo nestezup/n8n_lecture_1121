@@ -1,0 +1,126 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "path": "webhook-test",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        400,
+        -32
+      ],
+      "id": "48066f06-d0a7-4b17-afc5-6c0432179cf6",
+      "name": "Webhook",
+      "webhookId": "90a429c9-18a0-4ec6-81d0-cad816d2e2d5"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "message",
+              "name": "메시지",
+              "value": "=🔗 웹훅 테스트가 성공적으로 실행되었습니다!\\n\\n요청 시간: {{ new Date().toLocaleString('ko-KR') }}\\n수신된 데이터: {{ JSON.stringify($json.body) }}",
+              "type": "string"
+            },
+            {
+              "id": "status",
+              "name": "상태",
+              "value": "성공",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        624,
+        -32
+      ],
+      "id": "d11be08b-f817-47ce-9488-ee9dd45a97b9",
+      "name": "Edit Fields (Set)"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "log-message",
+              "name": "로그",
+              "value": "=[{{ new Date().toISOString() }}] 웹훅 요청 수신 - {{ $json.메시지 }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        848,
+        -32
+      ],
+      "id": "ca14ef4a-6d98-441a-b4d4-b77c2a5b6001",
+      "name": "Edit Fields1 (Set)"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ {\"status\": \"success\", \"message\": $json.메시지, \"timestamp\": new Date().toISOString(), \"log\": $json.로그} }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        1072,
+        -32
+      ],
+      "id": "2066c44a-2da8-4aaa-8c81-be071f3644e8",
+      "name": "Respond to Webhook"
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields (Set)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields (Set)": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1 (Set)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1 (Set)": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "instanceId": "68d1c51b855d2dc0279720214480b41f2c85f0df21ac6cc1a6f0e9dc96935b36"
+  }
+}

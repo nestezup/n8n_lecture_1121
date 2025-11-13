@@ -1,0 +1,208 @@
+{
+  "name": "실습 4: 나이 확인",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -464,
+        32
+      ],
+      "id": "b1d271ed-9db1-4ab4-8a57-0d5988db458b",
+      "name": "When clicking 'Execute workflow'"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "39083a29-e44b-4a47-93e3-961682f43c4f",
+              "name": "나이",
+              "value": 22,
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -240,
+        -64
+      ],
+      "id": "b61c4462-4afc-453e-9785-2dce26dfed77",
+      "name": "22세"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "39083a29-e44b-4a47-93e3-961682f43c4f",
+              "name": "나이",
+              "value": 15,
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -240,
+        128
+      ],
+      "id": "e8028f63-7027-4762-a5b2-2fa05609264c",
+      "name": "15세"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "50995b9a-dd15-4e35-a962-b43e2594e810",
+              "leftValue": "={{ $json['나이'] }}",
+              "rightValue": 20,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -16,
+        32
+      ],
+      "id": "892d734b-ea73-4ffd-b591-1c5ff437ea25",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "664bf50c-d05d-40bd-8609-4c0af043d926",
+              "name": "메시지",
+              "value": "=당신의 나이는  {{ $json['나이'] }} 입니다. \n20세 이상이군요!!",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        208,
+        -64
+      ],
+      "id": "ea2866e1-3277-45e4-aaa2-963198a6ab9c",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "664bf50c-d05d-40bd-8609-4c0af043d926",
+              "name": "메시지",
+              "value": "=당신의 나이는  {{ $json['나이'] }} 입니다. \n20세 미만이군요!!",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        208,
+        128
+      ],
+      "id": "50328d9b-6f50-4996-ac6f-b9de30cb555f",
+      "name": "Edit Fields1"
+    }
+  ],
+  "connections": {
+    "When clicking 'Execute workflow'": {
+      "main": [
+        [
+          {
+            "node": "22세",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "15세",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "22세": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "15세": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-01-13T00:00:00.000Z",
+  "versionId": "1"
+}
