@@ -1,0 +1,84 @@
+{
+  "name": "실습 2: 다중 데이터 생성",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "c3d4e5f6-a7b8-4c9d-0e1f-2a3b4c5d6e7f",
+      "name": "When clicking 'Test workflow'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "mode": "manual",
+        "duplicateItem": false,
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d4e5f6a7-b8c9-4d0e-1f2a-3b4c5d6e7f8a",
+              "name": "name",
+              "value": "홍길동",
+              "type": "string"
+            },
+            {
+              "id": "e5f6a7b8-c9d0-4e1f-2a3b-4c5d6e7f8a9b",
+              "name": "email",
+              "value": "hong@example.com",
+              "type": "string"
+            },
+            {
+              "id": "f6a7b8c9-d0e1-4f2a-3b4c-5d6e7f8a9b0c",
+              "name": "age",
+              "value": "30",
+              "type": "number"
+            },
+            {
+              "id": "a7b8c9d0-e1f2-4a3b-4c5d-6e7f8a9b0c1d",
+              "name": "date",
+              "value": "={{ $now.toFormat('yyyy-MM-dd') }}",
+              "type": "string"
+            },
+            {
+              "id": "b8c9d0e1-f2a3-4b4c-5d6e-7f8a9b0c1d2e",
+              "name": "active",
+              "value": "true",
+              "type": "boolean"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "d4e5f6a7-b8c9-4d0e-1f2a-3b4c5d6e7f8a",
+      "name": "Edit Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [450, 300]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking 'Test workflow'": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "00000000-0000-0000-0000-000000000000",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "00000000000000000000000000000000"
+  },
+  "id": "00000000-0000-0000-0000-000000000002",
+  "tags": []
+}
