@@ -361,6 +361,59 @@
             margin: 1em 0;
         }
 
+        /* Basic LLM vs Search API 비교 스타일 */
+        .comparison-container {
+            margin: 1.5em 0;
+        }
+
+        .comparison-example {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5em;
+            margin: 1em 0;
+        }
+
+        .basic-response, .search-response {
+            margin: 1em 0;
+            padding: 1em;
+            border-radius: 5px;
+        }
+
+        .basic-response {
+            background: #fff5f5;
+            border-left: 4px solid #dc3545;
+        }
+
+        .search-response {
+            background: #f0fff4;
+            border-left: 4px solid #28a745;
+        }
+
+        .business-scenarios {
+            margin: 1.5em 0;
+        }
+
+        .scenario {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.2em;
+            margin: 1em 0;
+            border: 1px solid #e9ecef;
+        }
+
+        .workflow-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2em;
+            margin: 1.5em 0;
+        }
+
+        @media (max-width: 768px) {
+            .workflow-comparison {
+                grid-template-columns: 1fr;
+            }
+        }
+
         .workflow-diagram {
             background: #f8f9fa;
             padding: 1.2em 1.5em;
@@ -1153,7 +1206,199 @@
                 <li>AI가 필요할 때 직접 구글 검색을 통해 최신 정보를 찾아 답변하도록 만듭니다.</li>
                 <li>AI의 틀린 정보(환각 현상)를 해결하고 실시간 정보를 활용하는 방법을 배웁니다.</li>
                 <li>실시간 정보 검색이 가능한 스마트 챗봇을 구축합니다.</li>
+                <li><strong>Basic LLM만 사용했을 때와 Search API 도구를 추가했을 때의 차이점을 명확히 이해합니다.</strong></li>
             </ul>
+
+            <h3>1.1. Basic LLM vs Search API 도구 비교 개요</h3>
+            <div class="highlight">
+                <h4>🎯 핵심 차이점</h4>
+                <p>Basic LLM은 학습 데이터截止일까지의 정보만 알 수 있지만, Search API 도구를 추가하면 AI가 실시간으로 구글 검색을 통해 최신 정보를 얻을 수 있습니다.</p>
+            </div>
+
+            <div class="two-column">
+                <div>
+                    <h4>🤖 Basic LLM만 사용</h4>
+                    <ul>
+                        <li><strong>정보 한계:</strong> 2024년 초까지의 데이터만 활용</li>
+                        <li><strong>환각 현상:</strong> 틀린 정보를 자신감 있게 제시 가능</li>
+                        <li><strong>실시간성 부재:</strong> 최신 가격, 재고, 이벤트 정보 불가</li>
+                        <li><strong>응답 속도:</strong> 빠름 (1-2초)</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>🔍 Search API 도구 추가</h4>
+                    <ul>
+                        <li><strong>실시간 검색:</strong> 구글에서 최신 정보 직접 검색</li>
+                        <li><strong>정확성 향상:</strong> 실제 데이터 기반의 정확한 답변</li>
+                        <li><strong>상세 정보:</strong> 특정 매장의 현재 상황 파악 가능</li>
+                        <li><strong>응답 속도:</strong> 보통 (3-8초, 검색 시간 포함)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>1.2. 가게 관련 실전 비교 예시</h3>
+            <div class="comparison-container">
+                <div class="comparison-example">
+                    <h5>🏪 질문: "이 마트 오늘 영업시간 알려줘"</h5>
+
+                    <div class="basic-response">
+                        <h6 style="color: #dc3545;">❌ Basic LLM 응답:</h6>
+                        <p>"일반적으로 마트는 오전 10시~오후 10시까지 영업합니다. 휴일은 다를 수 있고, 매장별로 차이가 있을 수 있습니다."</p>
+                        <small><em>※ 실제 영업시간과 다를 수 있음</em></small>
+                    </div>
+
+                    <div class="search-response">
+                        <h6 style="color: #28a745;">✅ Search Agent 응답:</h6>
+                        <p><strong>OO마트 오늘 영업시간:</strong> 오전 9시~오후 11시<br>
+                        📞 <strong>연락처:</strong> 02-1234-5678<br>
+                        📍 <strong>주소:</strong> 서울시 강남구 테헤란로 123<br>
+                        ⭐ <strong>현재 고객 평점:</strong> 4.2/5<br>
+                        🎯 <strong>오늘의 특별 행사:</strong> 신선식품 20% 할인 (오후 7시까지)</p>
+                        <small><em>※ 실시간 검색으로 확인된 정확한 정보</em></small>
+                    </div>
+                </div>
+            </div>
+
+            <h3>1.3. 비즈니스 시나리오별 비교</h3>
+            <div class="business-scenarios">
+                <div class="scenario">
+                    <h5>📊 시나리오 1: 경쟁사 분석</h5>
+                    <div class="two-column" style="font-size: 0.9em;">
+                        <div>
+                            <h6 style="color: #dc3545;">Basic LLM</h6>
+                            <p><strong>질문:</strong> "경쟁매장 프로모션 정보?"</p>
+                            <p><strong>응답:</strong> "죄송합니다, 실시간 프로모션 정보는 확인할 수 없습니다. 일반적으로 마트들은 주말 할인행사를 진행합니다."</p>
+                        </div>
+                        <div>
+                            <h6 style="color: #28a745;">Search Agent</h6>
+                            <p><strong>질문:</strong> "경쟁매장 프로모션 정보?"</p>
+                            <p><strong>응답:</strong> "금주 OO마트 프로모션: 1+1 행사(과일, 음료), 30% 할인(식빵), 회원가격 적용(생필품). 내일 종료됩니다."</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="scenario">
+                    <h5>🎯 시나리오 2: 재고 관리</h5>
+                    <div class="two-column" style="font-size: 0.9em;">
+                        <div>
+                            <h6 style="color: #dc3545;">Basic LLM</h6>
+                            <p><strong>질문:</strong> "요즘 잘 나가는 제품 트렌드?"</p>
+                            <p><strong>응답:</strong> "2023년 기준으로 건강식품, 유기농 제품, 편의식 등이 인기가 있습니다."</p>
+                        </div>
+                        <div>
+                            <h6 style="color: #28a745;">Search Agent</h6>
+                            <p><strong>질문:</strong> "요즘 잘 나가는 제품 트렌드?"</p>
+                            <p><strong>응답:</strong> "2025년 1월 현재, 프리바이오틱스 음료, 대체육 제품, HMR 프리미엄 제품이 매출 상승세. 특히 온라인 동향과 매장 판매 비교 분석 결과 제공."</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="scenario">
+                    <h5>📱 시나리오 3: 고객 응대</h5>
+                    <div class="two-column" style="font-size: 0.9em;">
+                        <div>
+                            <h6 style="color: #dc3545;">Basic LLM</h6>
+                            <p><strong>질문:</strong> "이 근처 맛집 추천해줘"</p>
+                            <p><strong>응답:</strong> "강남역 근처에는 다양한 맛집이 있습니다. 한식, 양식, 일식 등 취향에 맞춰 선택하실 수 있습니다."</p>
+                        </div>
+                        <div>
+                            <h6 style="color: #28a745;">Search Agent</h6>
+                            <p><strong>질문:</strong> "이 근처 맛집 추천해줘"</p>
+                            <p><strong>응답:</strong> "현재 영업중인 TOP3: 1.카레나무(4.8⭐, 금주 특별메뉴), 2.이태원까르보(4.6⭐, 예약 필수), 3.파스타지아(4.5⭐, 지금 10% 할인중)"</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h3>1.4. 기술적 구조 비교</h3>
+            <div class="workflow-comparison">
+                <div class="workflow-basic">
+                    <h4>Basic LLM Chain 구조:</h4>
+                    <div style="background: #f8f9fa; padding: 1em; border-radius: 5px; text-align: center; margin: 0.5em 0;">
+                        <span style="padding: 0.3em 0.6em; background: white; border: 1px solid #dc3545; border-radius: 3px;">Chat Trigger</span>
+                        →
+                        <span style="padding: 0.3em 0.6em; background: white; border: 1px solid #dc3545; border-radius: 3px;">Basic LLM</span>
+                        →
+                        <span style="padding: 0.3em 0.6em; background: white; border: 1px solid #dc3545; border-radius: 3px;">응답</span>
+                    </div>
+                    <p><small>제한된 정보, 빠른 응답 속도</small></p>
+                </div>
+
+                <div class="workflow-search">
+                    <h4>Search Agent 구조:</h4>
+                    <div style="background: #f8f9fa; padding: 1em; border-radius: 5px; text-align: center; margin: 0.5em 0;">
+                        <span style="padding: 0.3em 0.6em; background: white; border: 1px solid #28a745; border-radius: 3px;">Chat Trigger</span>
+                        →
+                        <span style="padding: 0.3em 0.6em; background: white; border: 1px solid #ffc107; border-radius: 3px;">AI Agent</span>
+                        →
+                        <span style="padding: 0.3em 0.6em; background: white; border: 1px solid #007bff; border-radius: 3px;">Search API</span>
+                        →
+                        <span style="padding: 0.3em 0.6em; background: white; border: 1px solid #28a745; border-radius: 3px;">LLM</span>
+                        →
+                        <span style="padding: 0.3em 0.6em; background: white; border: 1px solid #28a745; border-radius: 3px;">응답</span>
+                    </div>
+                    <p><small>실시간 정보, 정확한 응답</small></p>
+                </div>
+            </div>
+
+            <div class="tip">
+                <strong>🔧 실습 팁:</strong><br>
+                • <strong>Basic LLM:</strong> 간단한 질문, 일반적 정보, 빠른 응답이 필요할 때<br>
+                • <strong>Search Agent:</strong> 최신 정보, 실제 데이터, 정확성이 중요할 때<br>
+                • <strong>하이브리드 접근:</strong> 기본은 Basic LLM, 필요시 Search API 호출하는 방식도 가능
+            </div>
+
+            <h3>1.5. 성능 비교 요약표</h3>
+            <div style="overflow-x: auto;">
+                <table style="width: 100%; border-collapse: collapse; font-size: 0.9em;">
+                    <thead>
+                        <tr style="background: #f8f9fa;">
+                            <th style="border: 1px solid #dee2e6; padding: 0.8em;">항목</th>
+                            <th style="border: 1px solid #dee2e6; padding: 0.8em;">Basic LLM</th>
+                            <th style="border: 1px solid #dee2e6; padding: 0.8em;">Search API 추가</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="border: 1px solid #dee2e6; padding: 0.8em; font-weight: bold;">응답 속도</td>
+                            <td style="border: 1px solid #dee2e6; padding: 0.8em;">⚡ 매우 빠름 (1-2초)</td>
+                            <td style="border: 1px solid #dee2e6; padding: 0.8em;">🔄 보통 (3-8초)</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #dee2e6; padding: 0.8em; font-weight: bold;">정보 최신성</td>
+                            <td style="border: 1px solid #dee2e6; padding: 0.8em;">❌ 제한됨 (2024년 초)</td>
+                            <td style="border: 1px solid #dee2e6; padding: 0.8em;">✅ 실시간 (현재)</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #dee2e6; padding: 0.8em; font-weight: bold;">정확도</td>
+                            <td style="border: 1px solid #dee2e6; padding: 0.8em;">⚠️ 보통 (환각 가능성)</td>
+                            <td style="border: 1px solid #dee2e6; padding: 0.8em;">✅ 높음 (검증된 정보)</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #dee2e6; padding: 0.8em; font-weight: bold;">복잡도</td>
+                            <td style="border: 1px solid #dee2e6; padding: 0.8em;">🟢 낮음 (2개 노드)</td>
+                            <td style="border: 1px solid #dee2e6; padding: 0.8em;">🟡 높음 (4개 노드)</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #dee2e6; padding: 0.8em; font-weight: bold;">비용</td>
+                            <td style="border: 1px solid #dee2e6; padding: 0.8em;">💰 낮음</td>
+                            <td style="border: 1px solid #dee2e6; padding: 0.8em;">💰💰 보통 (API 호출료)</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #dee2e6; padding: 0.8em; font-weight: bold;">활용 분야</td>
+                            <td style="border: 1px solid #dee2e6; padding: 0.8em;">일반 상담, 기본 정보</td>
+                            <td style="border: 1px solid #dee2e6; padding: 0.8em;">리서치, 실시간 정보, 비즈니스</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="highlight">
+                <strong>🎯 추천 사용법:</strong><br>
+                • <strong>Simple questions:</strong> Basic LLM (속도 중시)<br>
+                • <strong>Real-time information:</strong> Search Agent (정확성 중시)<br>
+                • <strong>Hybrid approach:</strong> 기본은 Basic LLM, 필요시 Search API 호출
+            </div>
 
             <h3>2. Search Agent 구조 이해</h3>
             <div class="highlight">
@@ -1176,42 +1421,200 @@
   "nodes": [
     {
       "parameters": {
-        "options": {
-          "systemMessage": "당신은 사실에 기반하여 답변하는 리서치 에이전트입니다. 모르는 정보는 반드시 검색 도구를 사용하여 확인 후 답변하세요."
-        }
+        "content": "### The conversation history (last 20 messages) is stored in a buffer memory",
+        "height": 225,
+        "width": 300
       },
-      "id": "research-agent",
-      "name": "Research Agent",
-      "type": "@n8n/n8n-nodes-langchain.agent",
-      "typeVersion": 1.6,
-      "position": [600, 240]
-    },
-    {
-      "parameters": {},
-      "id": "serp-tool",
-      "name": "SerpAPI",
-      "type": "@n8n/n8n-nodes-langchain.toolSerpApi",
-      "typeVersion": 1,
-      "position": [800, 460]
+      "id": "e0ba1c0a-e9a9-4e8d-bdf0-7635c5f7a175",
+      "name": "Sticky Note4",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -96,
+        96
+      ],
+      "typeVersion": 1
     },
     {
       "parameters": {
-        "model": "gpt-4o"
+        "content": "### Tools which agent can use to accomplish the task",
+        "height": 225,
+        "width": 340
       },
-      "id": "openai-model",
-      "name": "OpenAI Chat Model",
-      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "id": "eb8560c2-5a5c-4314-8006-22c3978b35fb",
+      "name": "Sticky Note3",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        256,
+        96
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "### Conversational agent will utilise available tools to answer the prompt. ",
+        "height": 211,
+        "width": 422
+      },
+      "id": "9c219260-982a-48dd-ae88-5b3717513470",
+      "name": "Sticky Note6",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -64,
+        -320
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "2c34bf9d-27e3-44e4-aada-a1e8828ea6cf",
+      "name": "When chat message received",
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "position": [
+        -368,
+        -240
+      ],
+      "webhookId": "d48f9e07-3c05-4be8-86ca-5cee4c27b78f",
+      "typeVersion": 1.1
+    },
+    {
+      "parameters": {
+        "contextWindowLength": 20
+      },
+      "id": "c160be07-9550-49e1-acc9-85c85ac41650",
+      "name": "Simple Memory",
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "position": [
+        16,
+        208
+      ],
+      "typeVersion": 1.3
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "4ac3d064-1693-4e69-b553-2ce4f64796d8",
+      "name": "SerpAPI",
+      "type": "@n8n/n8n-nodes-langchain.toolSerpApi",
+      "position": [
+        320,
+        208
+      ],
       "typeVersion": 1,
-      "position": [600, 460]
+      "credentials": {
+        "serpApi": {
+          "id": "kCI1wGLm9Yms53zx",
+          "name": "SerpAPI account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "id": "4caccfcf-d340-4491-a2fa-817035daab36",
+      "name": "Wikipedia",
+      "type": "@n8n/n8n-nodes-langchain.toolWikipedia",
+      "position": [
+        448,
+        208
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "ac136991-d97b-460d-9266-daa79b08ecc6",
+      "name": "AI Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "position": [
+        32,
+        -240
+      ],
+      "typeVersion": 1.8
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -208,
+        -64
+      ],
+      "id": "dfaac4ee-9de0-4f9f-b423-c24f628b5b50",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "J6BrrEjD8T51n69n",
+          "name": "gemini-nest4000"
+        }
+      }
     }
   ],
   "connections": {
-    "SerpAPI": {
-      "ai_tool": [[{"node": "Research Agent", "type": "ai_tool", "index": 0}]]
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     },
-    "OpenAI Chat Model": {
-      "ai_language_model": [[{"node": "Research Agent", "type": "ai_language_model", "index": 0}]]
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SerpAPI": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wikipedia": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
     }
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "68d1c51b855d2dc0279720214480b41f2c85f0df21ac6cc1a6f0e9dc96935b36"
   }
 }</code></pre>
             </div>
@@ -1632,6 +2035,115 @@ JSON 형식으로 정확히 출력해주세요.
 "저희는 중소 제조업체인데, 현재 생산 라인에서 수기로 데이터를 관리하고 있습니다. 실시간 생산 현황 파악이 어려워서 스마트팩토리 솔루션 도입을 고려 중입니다. 현재 설비별 생산량과 불량률 데이터를 자동으로 수집할 수 있는 솔루션 있는지 알려주세요."</code></pre>
             </div>
 
+            <h4>🔧 1단계: 메타데이터 추출을 위한 PTCF 프롬프트 설계</h4>
+            <div class="accordion-container">
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <h5 style="color: #3498db; margin-bottom: 0.3em;">🔄 PTCF 프롬프트 템플릿</h5>
+                        <span class="accordion-arrow">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="code-block">
+                            <button class="copy-button" onclick="copyCode(this)">복사</button>
+                            <pre><code># PTCF 메타데이터 추출 프롬프트
+
+## Persona (역할)
+당신은 15년 경력의 B2B 솔루션 컨설턴트입니다. 다양한 산업의 고객 상담을 분석하고 솔루션 제안서 작성을 위한 핵심 정보를 추출하는 전문가입니다.
+
+## Task (과업)
+아래 고객 상담 녹취록을 분석하여 제안서 작성에 필요한 핵심 정보를 지정된 JSON 스키마에 따라 추출하세요.
+
+## Context (문맥)
+- 원본 데이터: 고객 상담 녹취록 전체 내용
+- 분석 목적: (주)큐이노텍 제안서 작성을 위한 메타데이터 추출
+- 추출 대상: 고객사명, 산업, 문제점, 예산, 요구사항 등 핵심 정보
+- 출력 형식: 반드시 지정된 JSON 스키마에 따라 정확하게 출력
+
+## Format (형식)
+반드시 아래 JSON 스키마에 따라 정확하게 출력하세요:
+- clientName: 고객사명 정확히 기재
+- industry: 구체적인 산업 분야 (예: 식품 제조업, 물류업체)
+- mainProblem: 고객의 가장 큰 문제를 한 문장으로 명확하게 요약
+- painPoints: 고객이 언급한 구체적인 문제들 (최소 3개)
+- budget: 언급된 구체적인 예산 금액이나 범위
+- requirements: 고객이 요구하는 기술적/기능적 사항들
+- userEnvironment: 사용자 연령, 기술 수준 등 사용 환경 정보
+
+분석 결과를 반드시 유효한 JSON 형식으로만 출력하세요. 다른 설명이나 텍스트는 포함하지 마세요.</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <h5 style="color: #e74c3c; margin-bottom: 0.3em;">📋 JSON 스키마 설계</h5>
+                        <span class="accordion-arrow">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="code-block">
+                            <button class="copy-button" onclick="copyCode(this)">복사</button>
+                            <pre><code>{
+  "type": "object",
+  "properties": {
+    "clientName": {
+      "type": "string",
+      "description": "고객사명"
+    },
+    "industry": {
+      "type": "string",
+      "description": "산업 분야"
+    },
+    "contactPerson": {
+      "type": "string",
+      "description": "주요 담당자"
+    },
+    "mainProblem": {
+      "type": "string",
+      "description": "고객의 핵심 문제점 (한 문장으로 요약)"
+    },
+    "currentProcess": {
+      "type": "string",
+      "description": "현재 업무 처리 방식"
+    },
+    "painPoints": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "구체적인 Pain Points (3~5개)"
+    },
+    "budget": {
+      "type": "string",
+      "description": "언급된 예산 정보"
+    },
+    "timeline": {
+      "type": "string",
+      "description": "희망 도입 시기"
+    },
+    "requirements": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "기술적 요구사항 (3~5개)"
+    },
+    "userEnvironment": {
+      "type": "string",
+      "description": "사용자 환경 및 특성"
+    },
+    "priority": {
+      "type": "string",
+      "enum": ["즉시", "1개월내", "3개월내", "6개월내"],
+      "description": "처리 우선순위"
+    }
+  },
+  "required": ["clientName", "industry", "mainProblem", "painPoints", "budget", "requirements"]
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <h4>4.2 2단계: 결과를 Google Sheets에 자동 업데이트</h4>
             <div class="practice-note">
                 <h5>🎯 미션 B — AI 분석 결과 시트에 기록</h5>
@@ -1785,6 +2297,75 @@ JSON 형식으로 정확히 출력해주세요.
 - mainProblem: 고객의 핵심 문제를 한 문장으로 명확하게 요약
 
 분석 결과를 반드시 유효한 JSON 형식으로만 출력하세요. 다른 설명이나 텍스트는 포함하지 마세요.</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <h5 style="color: #e74c3c; margin-bottom: 0.3em;">📋 JSON 스키마 설계</h5>
+                        <span class="accordion-arrow">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="code-block">
+                            <button class="copy-button" onclick="copyCode(this)">복사</button>
+                            <pre><code>{
+  "type": "object",
+  "properties": {
+    "clientName": {
+      "type": "string",
+      "description": "고객사명"
+    },
+    "industry": {
+      "type": "string",
+      "description": "산업 분야"
+    },
+    "contactPerson": {
+      "type": "string",
+      "description": "주요 담당자"
+    },
+    "mainProblem": {
+      "type": "string",
+      "description": "고객의 핵심 문제점 (한 문장으로 요약)"
+    },
+    "currentProcess": {
+      "type": "string",
+      "description": "현재 업무 처리 방식"
+    },
+    "painPoints": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "구체적인 Pain Points (3~5개)"
+    },
+    "budget": {
+      "type": "string",
+      "description": "언급된 예산 정보"
+    },
+    "timeline": {
+      "type": "string",
+      "description": "희망 도입 시기"
+    },
+    "requirements": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "기술적 요구사항 (3~5개)"
+    },
+    "userEnvironment": {
+      "type": "string",
+      "description": "사용자 환경 및 특성"
+    },
+    "priority": {
+      "type": "string",
+      "enum": ["즉시", "1개월내", "3개월내", "6개월내"],
+      "description": "처리 우선순위"
+    }
+  },
+  "required": ["clientName", "industry", "mainProblem", "painPoints", "budget", "requirements"]
+}</code></pre>
                         </div>
                     </div>
                 </div>
@@ -2042,8 +2623,45 @@ JSON 형식으로 정확히 출력해주세요.
                 <li><strong>출력:</strong> 완성된 비즈니스 제안서 (마크다운 형식)</li>
             </ul>
 
-            <h4>🔧 1단계: 메타데이터 추출을 위한 PTCF 프롬프트 설계</h4>
+            <h3>3.5. 1단계: 메타데이터 추출을 위한 PTCF 프롬프트 설계</h3>
             <div class="accordion-container">
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <h5 style="color: #3498db; margin-bottom: 0.3em;">🔄 PTCF 프롬프트 템플릿</h5>
+                        <span class="accordion-arrow">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="code-block">
+                            <button class="copy-button" onclick="copyCode(this)">복사</button>
+                            <pre><code># PTCF 메타데이터 추출 프롬프트
+
+## Persona (역할)
+당신은 15년 경력의 B2B 솔루션 컨설턴트입니다. 다양한 산업의 고객 상담을 분석하고 솔루션 제안서 작성을 위한 핵심 정보를 추출하는 전문가입니다.
+
+## Task (과업)
+아래 고객 상담 녹취록을 분석하여 제안서 작성에 필요한 핵심 정보를 지정된 JSON 스키마에 따라 추출하세요.
+
+## Context (문맥)
+- 원본 데이터: 고객 상담 녹취록 전체 내용
+- 분석 목적: (주)큐이노텍 제안서 작성을 위한 메타데이터 추출
+- 추출 대상: 고객사명, 산업, 문제점, 예산, 요구사항 등 핵심 정보
+- 출력 형식: 반드시 지정된 JSON 스키마에 따라 정확하게 출력
+
+## Format (형식)
+반드시 아래 JSON 스키마에 따라 정확하게 출력하세요:
+- clientName: 고객사명 정확히 기재
+- industry: 구체적인 산업 분야 (예: 식품 제조업, 물류업체)
+- mainProblem: 고객의 가장 큰 문제를 한 문장으로 명확하게 요약
+- painPoints: 고객이 언급한 구체적인 문제들 (최소 3개)
+- budget: 언급된 구체적인 예산 금액이나 범위
+- requirements: 고객이 요구하는 기술적/기능적 사항들
+- userEnvironment: 사용자 연령, 기술 수준 등 사용 환경 정보
+
+분석 결과를 반드시 유효한 JSON 형식으로만 출력하세요. 다른 설명이나 텍스트는 포함하지 마세요.</code></pre>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="accordion-item">
                     <div class="accordion-header" onclick="toggleAccordion(this)">
                         <h5 style="color: #e74c3c; margin-bottom: 0.3em;">📋 JSON 스키마 설계</h5>
@@ -2115,43 +2733,204 @@ JSON 형식으로 정확히 출력해주세요.
 
                 <div class="accordion-item">
                     <div class="accordion-header" onclick="toggleAccordion(this)">
-                        <h5 style="color: #3498db; margin-bottom: 0.3em;">🔄 PTCF 프롬프트 템플릿</h5>
+                        <h5 style="color: #f39c12; margin-bottom: 0.3em;">📋 메타데이터 출력 예시</h5>
                         <span class="accordion-arrow">▼</span>
                     </div>
                     <div class="accordion-content">
                         <div class="code-block">
                             <button class="copy-button" onclick="copyCode(this)">복사</button>
-                            <pre><code># PTCF 메타데이터 추출 프롬프트
-
-## Persona (역할)
-당신은 15년 경력의 B2B 솔루션 컨설턴트입니다. 다양한 산업의 고객 상담을 분석하고 솔루션 제안서 작성을 위한 핵심 정보를 추출하는 전문가입니다.
-
-## Task (과업)
-아래 고객 상담 녹취록을 분석하여 제안서 작성에 필요한 핵심 정보를 지정된 JSON 스키마에 따라 추출하세요.
-
-## Context (문맥)
-- 원본 데이터: 고객 상담 녹취록 전체 내용
-- 분석 목적: (주)큐이노텍 제안서 작성을 위한 메타데이터 추출
-- 추출 대상: 고객사명, 산업, 문제점, 예산, 요구사항 등 핵심 정보
-- 출력 형식: 반드시 지정된 JSON 스키마에 따라 정확하게 출력
-
-## Format (형식)
-반드시 아래 JSON 스키마에 따라 정확하게 출력하세요:
-- clientName: 고객사명 정확히 기재
-- industry: 구체적인 산업 분야 (예: 식품 제조업, 물류업체)
-- mainProblem: 고객의 가장 큰 문제를 한 문장으로 명확하게 요약
-- painPoints: 고객이 언급한 구체적인 문제들 (최소 3개)
-- budget: 언급된 구체적인 예산 금액이나 범위
-- requirements: 고객이 요구하는 기술적/기능적 사항들
-- userEnvironment: 사용자 연령, 기술 수준 등 사용 환경 정보
-
-분석 결과를 반드시 유효한 JSON 형식으로만 출력하세요. 다른 설명이나 텍스트는 포함하지 마세요.</code></pre>
+                            <pre><code>{
+  "clientName": "맛난푸드",
+  "industry": "식품 제조업",
+  "contactPerson": "이정재 공장장",
+  "mainProblem": "원료 입고부터 제품 출하까지 데이터가 끊겨 실시간 생산 현황 파악이 어렵고 품질 사고 발생 시 역추적이 불가",
+  "currentProcess": "작업자들이 수기로 일지를 작성하여 데이터 관리",
+  "painPoints": [
+    "수기 데이터 관리로 실시간성 부족",
+    "품질 사고 발생 시 역추적 불가",
+    "유통기한 관리의 인력 의존성",
+    "작업자 대상으로 UI 복잡성 문제"
+  ],
+  "budget": "스마트공장 지원사업 포함 1억 원",
+  "timeline": "언급 없음",
+  "requirements": [
+    "터치형 POP 시스템 (50대 작업자 친화적)",
+    "LOT 추적 시스템",
+    "실시간 생산 현황 모니터링"
+  ],
+  "userEnvironment": "현장 작업자 50대 이상",
+  "priority": "1개월내"
+}</code></pre>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <h4>📝 2단계: 제안서 생성을 위한 PTCF 프롬프트 설계</h4>
+            <h3>4. 1단계 실습용 워크플로우 JSON</h3>
+            <div class="highlight">
+                <p><strong>🎯 실습 목표:</strong> 고객 상담 녹취록에서 제안서 작성에 필요한 핵심 메타데이터를 정확하게 추출하는 워크플로우를 구축합니다.</p>
+            </div>
+
+            <div class="code-block">
+                <button class="copy-button" onclick="copyCode(this)">복사</button>
+                <pre><code>{
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "a47a35a9-8f56-4457-90ac-36016caa54cf",
+      "name": "When clicking 'Execute workflow'"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1a64e6e0-aa67-4c5e-b76a-f0d26ab92d40",
+              "name": "상담녹취록",
+              "value": "[샘플 1: 식품 제조업 - 맛난푸드] 일시: 2024년 11월 18일 참석: (주)큐이노텍 정우성 부장, 맛난푸드 이정재 공장장  이정재: 지금 원료 입고부터 제품 출하까지 데이터가 끊겨 있어요. 작업자들이 수기로 일지를 쓰다 보니, 지난달에 유통기한 임박한 원료를 실수로 투입해서 전량 폐기하는 사고가 있었습니다. 품질 사고가 나면 역추적(Traceability)이 안 되는 게 제일 무섭습니다.  정우성: 식품 쪽은 LOT 추적과 품질 관리가 생명이니까요. 예산은 어느 정도로 책정하셨나요?  이정재: 스마트공장 지원사업 받아서 자부담 포함 1억 원 정도 생각 중입니다. 현장 작업자가 50대 이상이라 UI가 복잡하면 못 씁니다. 터치형 POP 시스템이 필수예요.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        224,
+        0
+      ],
+      "id": "107d9a3e-9d41-4c1e-bf38-4d6eab6a39e7",
+      "name": "상담녹취록"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json['상담녹취록'] }}",
+        "hasOutputParser": true,
+        "messages": {
+          "messageValues": [
+            {
+              "message": "# PTCF 메타데이터 추출 프롬프트\n\n## Persona (역할)\n당신은 15년 경력의 B2B 솔루션 컨설턴트입니다. 다양한 산업의 고객 상담을 분석하고 솔루션 제안서 작성을 위한 핵심 정보를 추출하는 전문가입니다.\n\n## Task (과업)\n아래 고객 상담 녹취록을 분석하여 제안서 작성에 필요한 핵심 정보를 지정된 JSON 스키마에 따라 추출하세요.\n\n## Context (문맥)\n- 원본 데이터: 고객 상담 녹취록 전체 내용\n- 분석 목적: (주)큐이노텍 제안서 작성을 위한 메타데이터 추출\n- 추출 대상: 고객사명, 산업, 문제점, 예산, 요구사항 등 핵심 정보\n- 출력 형식: 반드시 지정된 JSON 스키마에 따라 정확하게 출력\n\n## Format (형식)\n반드시 아래 JSON 스키마에 따라 정확하게 출력하세요:\n- clientName: 고객사명 정확히 기재\n- industry: 구체적인 산업 분야 (예: 식품 제조업, 물류업체)\n- mainProblem: 고객의 가장 큰 문제를 한 문장으로 명확하게 요약\n- painPoints: 고객이 언급한 구체적인 문제들 (최소 3개)\n- budget: 언급된 구체적인 예산 금액이나 범위\n- requirements: 고객이 요구하는 기술적/기능적 사항들\n- userEnvironment: 사용자 연령, 기술 수준 등 사용 환경 정보\n\n분석 결과를 반드시 유효한 JSON 형식으로만 출력하세요. 다른 설명이나 텍스트는 포함하지 마세요."
+            }
+          ]
+        },
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        448,
+        0
+      ],
+      "id": "00a4f9d4-6979-407b-865d-5f0a0efbfa3e",
+      "name": "Basic LLM Chain"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        416,
+        192
+      ],
+      "id": "78aa4181-0960-47eb-9d29-51c6a86be5ee",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "J6BrrEjD8T51n69n",
+          "name": "gemini-nest4000"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "schemaType": "manual",
+        "inputSchema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"clientName\": {\n      \"type\": \"string\",\n      \"description\": \"고객사명\"\n    },\n    \"industry\": {\n      \"type\": \"string\",\n      \"description\": \"산업 분야\"\n    },\n    \"contactPerson\": {\n      \"type\": \"string\",\n      \"description\": \"주요 담당자\"\n    },\n    \"mainProblem\": {\n      \"type\": \"string\",\n      \"description\": \"고객의 핵심 문제점 (한 문장으로 요약)\"\n    },\n    \"currentProcess\": {\n      \"type\": \"string\",\n      \"description\": \"현재 업무 처리 방식\"\n    },\n    \"painPoints\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"string\"\n      },\n      \"description\": \"구체적인 Pain Points (3~5개)\"\n    },\n    \"budget\": {\n      \"type\": \"string\",\n      \"description\": \"언급된 예산 정보\"\n    },\n    \"timeline\": {\n      \"type\": \"string\",\n      \"description\": \"희망 도입 시기\"\n    },\n    \"requirements\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"string\"\n      },\n      \"description\": \"기술적 요구사항 (3~5개)\"\n    },\n    \"userEnvironment\": {\n      \"type\": \"string\",\n      \"description\": \"사용자 환경 및 특성\"\n    },\n    \"priority\": {\n      \"type\": \"string\",\n      \"enum\": [\"즉시\", \"1개월내\", \"3개월내\", \"6개월내\"],\n      \"description\": \"처리 우선순위\"\n    }\n  },\n  \"required\": [\"clientName\", \"industry\", \"mainProblem\", \"painPoints\", \"budget\", \"requirements\"]\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        640,
+        256
+      ],
+      "id": "de6ce976-59ca-4d0a-b2bf-0b9eb470374c",
+      "name": "Structured Output Parser"
+    }
+  ],
+  "connections": {
+    "When clicking 'Execute workflow'": {
+      "main": [
+        [
+          {
+            "node": "상담녹취록",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "상담녹취록": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "68d1c51b855d2dc0279720214480b41f2c85f0df21ac6cc1a6f0e9dc96935b36"
+  }
+}</code></pre>
+            </div>
+
+            <div class="tip">
+                <strong>💡 워크플로우 실행 팁:</strong>
+                <ul>
+                    <li><strong>Step 1:</strong> Manual Trigger로 워크플로우 실행</li>
+                    <li><strong>Step 2:</strong> Set 노드에서 상담녹취록 데이터 확인</li>
+                    <li><strong>Step 3:</strong> Basic LLM Chain이 PTCF 프롬프트로 메타데이터 추출</li>
+                    <li><strong>Step 4:</strong> Structured Output Parser가 JSON 스키마에 따라 정형 출력</li>
+                </ul>
+            </div>
+
+            <h3>4.5. 2단계: 제안서 생성을 위한 PTCF 프롬프트 설계</h3>
             <div class="accordion-container">
                 <div class="accordion-item">
                     <div class="accordion-header" onclick="toggleAccordion(this)">
@@ -2270,22 +3049,105 @@ JSON 형식으로 정확히 출력해주세요.
                 </div>
             </div>
 
+            <h3>5. 2단계 완전 프로세스 실습용 워크플로우 JSON</h3>
+            <div class="highlight">
+                <p><strong>🎯 실습 목표:</strong> 상담녹취록 → 메타데이터 추출 → 제안서 자동 생성의 완전한 자동화 프로세스를 구축합니다.</p>
+            </div>
+
             <div class="code-block">
-        <button class="copy-button" onclick="copyCode(this)">복사</button>
-        <pre><code>{
+                <button class="copy-button" onclick="copyCode(this)">복사</button>
+                <pre><code>{
   "nodes": [
     {
       "parameters": {},
-      "id": "manual-trigger",
-      "name": "When clicking 'Execute workflow'",
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
-      "position": [280, 240]
+      "position": [
+        0,
+        0
+      ],
+      "id": "de40e8e7-54c4-481d-bc2c-370cc315e3f1",
+      "name": "When clicking 'Execute workflow'"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1a64e6e0-aa67-4c5e-b76a-f0d26ab92d40",
+              "name": "상담녹취록",
+              "value": "[샘플 1: 식품 제조업 - 맛난푸드] 일시: 2024년 11월 18일 참석: (주)큐이노텍 정우성 부장, 맛난푸드 이정재 공장장  이정재: 지금 원료 입고부터 제품 출하까지 데이터가 끊겨 있어요. 작업자들이 수기로 일지를 쓰다 보니, 지난달에 유통기한 임박한 원료를 실수로 투입해서 전량 폐기하는 사고가 있었습니다. 품질 사고가 나면 역추적(Traceability)이 안 되는 게 제일 무섭습니다.  정우성: 식품 쪽은 LOT 추적과 품질 관리가 생명이니까요. 예산은 어느 정도로 책정하셨나요?  이정재: 스마트공장 지원사업 받아서 자부담 포함 1억 원 정도 생각 중입니다. 현장 작업자가 50대 이상이라 UI가 복잡하면 못 씁니다. 터치형 POP 시스템이 필수예요.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        224,
+        0
+      ],
+      "id": "67bd7d9d-1355-4dbd-9c92-8b66c268f676",
+      "name": "상담녹취록"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        456,
+        224
+      ],
+      "id": "5a9a011a-43f4-4962-8f8c-01ca70708913",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "J6BrrEjD8T51n69n",
+          "name": "gemini-nest4000"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "schemaType": "manual",
+        "inputSchema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"clientName\": {\n      \"type\": \"string\",\n      \"description\": \"고객사명\"\n    },\n    \"industry\": {\n      \"type\": \"string\",\n      \"description\": \"산업 분야\"\n    },\n    \"contactPerson\": {\n      \"type\": \"string\",\n      \"description\": \"주요 담당자\"\n    },\n    \"mainProblem\": {\n      \"type\": \"string\",\n      \"description\": \"고객의 핵심 문제점 (한 문장으로 요약)\"\n    },\n    \"currentProcess\": {\n      \"type\": \"string\",\n      \"description\": \"현재 업무 처리 방식\"\n    },\n    \"painPoints\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"string\"\n      },\n      \"description\": \"구체적인 Pain Points (3~5개)\"\n    },\n    \"budget\": {\n      \"type\": \"string\",\n      \"description\": \"언급된 예산 정보\"\n    },\n    \"timeline\": {\n      \"type\": \"string\",\n      \"description\": \"희망 도입 시기\"\n    },\n    \"requirements\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"string\"\n      },\n      \"description\": \"기술적 요구사항 (3~5개)\"\n    },\n    \"userEnvironment\": {\n      \"type\": \"string\",\n      \"description\": \"사용자 환경 및 특성\"\n    },\n    \"priority\": {\n      \"type\": \"string\",\n      \"enum\": [\"즉시\", \"1개월내\", \"3개월내\", \"6개월내\"],\n      \"description\": \"처리 우선순위\"\n    }\n  },\n  \"required\": [\"clientName\", \"industry\", \"mainProblem\", \"painPoints\", \"budget\", \"requirements\"]\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        584,
+        224
+      ],
+      "id": "aa5a7f89-b931-46f1-8f0d-fe7020302cd7",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        872,
+        224
+      ],
+      "id": "68fd7d6b-c1af-4c18-9ffb-0d1134551846",
+      "name": "Google Gemini Chat Model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "J6BrrEjD8T51n69n",
+          "name": "gemini-nest4000"
+        }
+      }
     },
     {
       "parameters": {
         "promptType": "define",
-        "text": "고객 상담 녹취록:\n\n[샘플 1: 식품 제조업 - 맛난푸드]\n일시: 2024년 11월 18일\n참석: (주)큐이노텍 정우성 부장, 맛난푸드 이정재 공장장\n\n이정재: 지금 원료 입고부터 제품 출하까지 데이터가 끊겨 있어요. 작업자들이 수기로 일지를 쓰다 보니, 지난달에 유통기한 임박한 원료를 실수로 투입해서 전량 폐기하는 사고가 있었습니다. 품질 사고가 나면 역추적(Traceability)이 안 되는 게 제일 무섭습니다.\n\n정우성: 식품 쪽은 LOT 추적과 품질 관리가 생명이니까요. 예산은 어느 정도로 책정하셨나요?\n\n이정재: 스마트공장 지원사업 받아서 자부담 포함 1억 원 정도 생각 중입니다. 현장 작업자가 50대 이상이라 UI가 복잡하면 못 씁니다. 터치형 POP 시스템이 필수예요.",
+        "text": "={{ $json['상담녹취록'] }}",
         "hasOutputParser": true,
         "messages": {
           "messageValues": [
@@ -2294,41 +3156,38 @@ JSON 형식으로 정확히 출력해주세요.
             }
           ]
         },
-        "jsonSchema": "{\"type\":\"object\",\"properties\":{\"clientName\":{\"type\":\"string\"},\"industry\":{\"type\":\"string\"},\"contactPerson\":{\"type\":\"string\"},\"mainProblem\":{\"type\":\"string\"},\"currentProcess\":{\"type\":\"string\"},\"painPoints\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}},\"budget\":{\"type\":\"string\"},\"timeline\":{\"type\":\"string\"},\"requirements\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}},\"userEnvironment\":{\"type\":\"string\"},\"priority\":{\"type\":\"string\",\"enum\":[\"즉시\",\"1개월내\",\"3개월내\",\"6개월내\"]}},\"required\":[\"clientName\",\"industry\",\"mainProblem\",\"painPoints\",\"budget\",\"requirements\"]}"
+        "batching": {}
       },
-      "id": "extract-metadata",
-      "name": "Extract Metadata",
       "type": "@n8n/n8n-nodes-langchain.chainLlm",
       "typeVersion": 1.7,
-      "position": [460, 240]
+      "position": [
+        448,
+        0
+      ],
+      "id": "3ef1bf6b-467b-4a3b-a31b-9324383b0137",
+      "name": "상담녹취록메타데이터추출"
     },
     {
       "parameters": {
         "promptType": "define",
-        "text": "추출된 고객 메타데이터: {{ $json }}",
+        "text": "={{ $json.output }}",
         "messages": {
           "messageValues": [
             {
               "message": "# PTCF 제안서 생성 프롬프트\n\n## Persona (역할)\n당신은 (주)큐이노텍의 수석 솔루션 아키텍트입니다. 10년 이상 스마트팩토리 및 산업용 자동화 솔루션 기획 경험이 있으며, 고객의 문제를 정확히 진단하고 최적의 솔루션을 제안하는 전문가입니다.\n\n## Task (과업)\n아래 추출된 고객 메타데이터를 바탕으로 고객 맞춤형 비즈니스 제안서를 작성하세요. (주)큐이노텍의 솔루션 전문성을 바탕으로 설득력 있는 제안서를 생성해야 합니다.\n\n## Context (문맥)\n- **고객 정보**: 아래 JSON 형식의 고객 메타데이터\n- **제안 목적**: 고객의 문제 해결을 위한 (주)큐이노텍 솔루션 제안\n- **제안 형식**: 전문 비즈니스 제안서 (마크다운 형식)\n- **고객 상황**: 고객사의 현재 문제, 예산, 요구사항, 시간표 등\n\n## Format (형식)\n아래 구조에 따라 전문적인 제안서를 작성하세요:\n\n### 1. 제안서 개요\n- 제안서 제목 (고객사명 포함)\n- 제안 일자\n- 담당자 정보\n\n### 2. 고객 문제 진단\n- 고객의 핵심 문제점 명확히 기술\n- 현재 프로세스의 문제점 분석\n- 문제 해결의 시급성 강조\n\n### 3. (주)큐이노텍 솔루션 제안\n- 구체적인 솔루션 구성\n- 주요 기능 및 특장점\n- 기술적 우위성 설명\n\n### 4. 기대효과 및 성과\n- 문제 해결 효과\n- ROI 및 비용 절감 효과\n- 생산성 향상 기대치\n\n### 5. 도입 계획 및 예산\n- 단계별 도입 일정\n- 총 소요 예산\n- 유지보수 계획\n\n### 6. 결론\n- 제안 요약\n- 차별화된 가치 제안\n\n**요구사항**:\n- 전문적이고 설득력 있는 톤으로 작성\n- 고객의 예산과 요구사항을 반드시 고려\n- (주)큐이노텍의 전문성을 강조\n- 구체적이고 현실적인 제안 내용"
             }
           ]
-        }
+        },
+        "batching": {}
       },
-      "id": "generate-proposal",
-      "name": "Generate Proposal",
       "type": "@n8n/n8n-nodes-langchain.chainLlm",
       "typeVersion": 1.7,
-      "position": [640, 240]
-    },
-    {
-      "parameters": {
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
-      "typeVersion": 1,
-      "position": [460, 400],
-      "id": "gemini-model",
-      "name": "Google Gemini Chat Model"
+      "position": [
+        800,
+        0
+      ],
+      "id": "b111f85c-bc08-4106-bcbe-12160a6bf09c",
+      "name": "제안서생성"
     }
   ],
   "connections": {
@@ -2336,18 +3195,18 @@ JSON 형식으로 정확히 출력해주세요.
       "main": [
         [
           {
-            "node": "Extract Metadata",
+            "node": "상담녹취록",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Extract Metadata": {
+    "상담녹취록": {
       "main": [
         [
           {
-            "node": "Generate Proposal",
+            "node": "상담녹취록메타데이터추출",
             "type": "main",
             "index": 0
           }
@@ -2358,13 +3217,41 @@ JSON 형식으로 정확히 출력해주세요.
       "ai_languageModel": [
         [
           {
-            "node": "Extract Metadata",
+            "node": "상담녹취록메타데이터추출",
             "type": "ai_languageModel",
             "index": 0
-          },
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
           {
-            "node": "Generate Proposal",
+            "node": "상담녹취록메타데이터추출",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "제안서생성",
             "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "상담녹취록메타데이터추출": {
+      "main": [
+        [
+          {
+            "node": "제안서생성",
+            "type": "main",
             "index": 0
           }
         ]
@@ -2373,10 +3260,24 @@ JSON 형식으로 정확히 출력해주세요.
   },
   "pinData": {},
   "meta": {
-    "templateCredsSetupCompleted": true
+    "templateCredsSetupCompleted": true,
+    "instanceId": "68d1c51b855d2dc0279720214480b41f2c85f0df21ac6cc1a6f0e9dc96935b36"
   }
 }</code></pre>
-    </div>
+            </div>
+
+            <div class="tip">
+                <strong>💡 완전 프로세스 워크플로우 실행 방법:</strong>
+                <ul>
+                    <li><strong>Step 1:</strong> Manual Trigger로 전체 프로세스 시작</li>
+                    <li><strong>Step 2:</strong> 상담녹취록에서 고객 데이터 준비</li>
+                    <li><strong>Step 3:</strong> PTCF 프롬프트로 메타데이터 추출 (1단계)</li>
+                    <li><strong>Step 4:</strong> 추출된 메타데이터로 제안서 자동 생성 (2단계)</li>
+                    <li><strong>Step 5:</strong> 완성된 비즈니스 제안서 출력 확인</li>
+                </ul>
+                <p><strong>✨ 이 워크플로우는 B2B 영업 자동화의 완전한 사례로, 실제 비즈니스에 바로 적용 가능합니다!</strong></p>
+            </div>
+
         </section>
 
     </main>
